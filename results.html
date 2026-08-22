@@ -305,7 +305,11 @@
           <span class="brand-badge">OS</span>
         </a>
 
-        <div id="authActions" class="hidden" style="display: flex; gap: 8px;">
+        <div id="authActions" class="hidden" style="display: flex; align-items: center; gap: 8px;">
+          <span style="display: inline-flex; align-items: center; gap: 6px; font-size: 12.5px; color: #4ADE80; background: rgba(74, 222, 128, 0.1); border: 1px solid rgba(74, 222, 128, 0.25); padding: 4px 10px; border-radius: 20px;">
+            <span style="width: 7px; height: 7px; border-radius: 50%; background: #4ADE80; box-shadow: 0 0 8px #4ADE80;"></span>
+            مباشر (Live)
+          </span>
           <button type="button" class="btn-ghost" onclick="fetchResults(true)">تحديث ↻</button>
           <button type="button" class="btn-ghost" onclick="exportCSV()">تصدير Excel</button>
           <button type="button" class="btn-ghost" onclick="exportJSON()">JSON</button>
@@ -440,7 +444,13 @@
         document.getElementById('authActions').classList.remove('hidden');
         document.getElementById('authActions').style.display = 'flex';
         fetchResults();
+
+        // Auto poll every 8 seconds for live vote updates
+        if (autoRefreshTimer) clearInterval(autoRefreshTimer);
+        autoRefreshTimer = setInterval(() => fetchResults(false), 8000);
       }
+
+      let autoRefreshTimer = null;
 
       async function fetchResults(isManualRefresh = false) {
         const u = sessionStorage.getItem('auth_u') || 'tarteebat';
@@ -448,7 +458,10 @@
 
         let remoteItems = [];
         try {
-          const res = await fetch(`/api/results?user=${encodeURIComponent(u)}&pass=${encodeURIComponent(p)}`);
+          const res = await fetch(`/api/results?user=${encodeURIComponent(u)}&pass=${encodeURIComponent(p)}&_t=${Date.now()}`, {
+            cache: 'no-store',
+            headers: { 'Cache-Control': 'no-cache' }
+          });
           if (res.ok) {
             const data = await res.json();
             remoteItems = data.results || [];
