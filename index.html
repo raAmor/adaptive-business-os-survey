@@ -502,12 +502,7 @@
           <span class="brand-badge">OS</span>
         </div>
 
-        <div class="topbar-side end">
-          <button class="nav-btn" type="button" onclick="openModal()">
-            <span class="dot-pill"></span>
-            الاستجابات (<span id="storedCount">0</span>)
-          </button>
-        </div>
+        <div class="topbar-side end"></div>
       </div>
     </header>
 
@@ -1038,34 +1033,11 @@
         </p>
 
         <div class="action-bar" style="justify-content: center; margin-top: 32px;">
-          <button type="button" class="btn-ghost" onclick="restartSurvey()">إعادة البدء</button>
-          <button type="button" class="btn-primary" onclick="openModal()">عرض الاستجابات المسجلة</button>
+          <button type="button" class="btn-primary" onclick="restartSurvey()">إرسال إجابة أخرى</button>
         </div>
       </div>
 
     </main>
-
-    <!-- Responses Modal -->
-    <div id="respModal" class="modal-overlay hidden">
-      <div class="modal-panel">
-        <div class="modal-head">
-          <div style="font-weight: 700; font-size: 16px;">الاستجابات المسجلة (<span id="modalCount">0</span>)</div>
-          <button type="button" class="nav-btn" onclick="closeModal()">✕</button>
-        </div>
-
-        <div class="modal-content" id="modalItems">
-          <!-- Item logs -->
-        </div>
-
-        <div class="modal-foot">
-          <button type="button" class="nav-btn" style="color: #FF7B7B;" onclick="clearAll()">مسح الكل</button>
-          <div style="display: flex; gap: 8px;">
-            <button type="button" class="btn-ghost" style="padding: 8px 14px; font-size: 13.5px;" onclick="exportCSV()">تصدير CSV</button>
-            <button type="button" class="btn-primary" style="padding: 8px 14px; font-size: 13.5px;" onclick="exportJSON()">تصدير JSON</button>
-          </div>
-        </div>
-      </div>
-    </div>
 
     <!-- Script Logic -->
     <script>
@@ -1098,8 +1070,7 @@
       };
 
       document.addEventListener('DOMContentLoaded', () => {
-        updateCount();
-        updateProgress();
+                updateProgress();
       });
 
       // ── Step Navigation ────────────────────────
@@ -1214,8 +1185,16 @@
         existing.push(record);
         localStorage.setItem(STORAGE_KEY, JSON.stringify(existing));
 
-        updateCount();
+        
+        // Send to central API endpoint
+        fetch('/api/submit', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(record)
+        }).catch(e => console.log('Offline/Local save only'));
+
         showStep(14);
+
       }
 
       function restartSurvey() {
@@ -1231,92 +1210,6 @@
         if (el) el.innerText = stored.length;
       }
 
-      // ── Modal & Export ─────────────────────────
-      function openModal() {
-        const stored = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
-        document.getElementById('modalCount').innerText = stored.length;
-        const container = document.getElementById('modalItems');
-        container.innerHTML = '';
-
-        if (stored.length === 0) {
-          container.innerHTML = `<div style="text-align: center; padding: 30px; color: var(--ink-muted);">لا توجد استجابات مسجلة بعد.</div>`;
-        } else {
-          stored.forEach((item, index) => {
-            const div = document.createElement('div');
-            div.className = 'item-log';
-            div.innerHTML = `
-              <div style="display: flex; justify-content: space-between; font-weight: 700; color: var(--ink-primary); margin-bottom: 6px;">
-                <span>استجابة #${index + 1} (${item.q1_gender || '-'} • ${item.q2_age || '-'})</span>
-                <span style="font-size: 12px; color: var(--ink-muted); font-weight: normal;">${item.formattedTime}</span>
-              </div>
-              <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 4px; font-size: 13px; color: var(--ink-secondary);">
-                <div><strong>الخبرة:</strong> ${item.q3_experience || '-'}</div>
-                <div><strong>أهمية النظام:</strong> ${item.q5_importance || '-'}/5</div>
-                <div><strong>أفضل نظام:</strong> ${item.q11_best_system || '-'}</div>
-                <div><strong>طريقة الدفع:</strong> ${item.q12_payment_pref || '-'}</div>
-                <div><strong>الـ AI:</strong> ${item.q9_ai || '-'}/5</div>
-                <div><strong>التخصيص:</strong> ${item.q8_customization || '-'}/5</div>
-              </div>
-            `;
-            container.appendChild(div);
-          });
-        }
-        document.getElementById('respModal').classList.remove('hidden');
-      }
-
-      function closeModal() {
-        document.getElementById('respModal').classList.add('hidden');
-      }
-
-      function clearAll() {
-        if (confirm('مسح كل الاستجابات؟')) {
-          localStorage.removeItem(STORAGE_KEY);
-          updateCount();
-          openModal();
-        }
-      }
-
-      function exportJSON() {
-        const stored = localStorage.getItem(STORAGE_KEY) || '[]';
-        const blob = new Blob([stored], { type: 'application/json' });
-        const a = document.createElement('a');
-        a.href = URL.createObjectURL(blob);
-        a.download = `adaptive_os_${Date.now()}.json`;
-        a.click();
-      }
-
-      function exportCSV() {
-        const stored = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
-        if (!stored.length) return alert('لا توجد بيانات');
-        const headers = [
-          'ID', 'الوقت', 'س1_الجنس', 'س2_العمر', 'س3_تجربة_العمل', 'س4_طريقة_التنظيم',
-          'س5_أهمية_النظام', 'س6_مشاكل_غياب_النظام', 'س7_أسباب_الرفض', 'س8_التخصيص',
-          'س9_الذكاء_الاصطناعي', 'س10_الأولوية', 'س11_أفضل_نظام_وسبب_تفضيله',
-          'س12_طريقة_الدفع_المفضلة', 'س13_عقبات_التبديل'
-        ];
-        const rows = stored.map(r => [
-          r.id,
-          r.formattedTime,
-          `"${r.q1_gender || ''}"`,
-          `"${r.q2_age || ''}"`,
-          `"${r.q3_experience || ''}"`,
-          `"${((r.q4_tools || []).join(', ') + (r.q4_tools_other ? ' - ' + r.q4_tools_other : ''))}"`,
-          r.q5_importance,
-          `"${((r.q6_problems || []).join(', ') + (r.q6_problems_other ? ' - ' + r.q6_problems_other : ''))}"`,
-          `"${((r.q7_rejection || []).join(', ') + (r.q7_rejection_other ? ' - ' + r.q7_rejection_other : ''))}"`,
-          r.q8_customization,
-          r.q9_ai,
-          `"${r.q10_priority || ''}"`,
-          `"${(r.q11_best_system || '') + (r.q11_best_system_reason ? ' | السبب: ' + r.q11_best_system_reason : '')}"`,
-          `"${r.q12_payment_pref || ''}"`,
-          `"${r.q13_switching || ''}"`
-        ]);
-        const csv = '\uFEFF' + [headers.join(','), ...rows.map(e => e.join(','))].join('\n');
-        const a = document.createElement('a');
-        a.href = URL.createObjectURL(new Blob([csv], { type: 'text/csv;charset=utf-8;' }));
-        a.download = `adaptive_os_${Date.now()}.csv`;
-        a.click();
-      }
-    </script>
+      </script>
   </body>
 </html>

@@ -1,0 +1,641 @@
+<!doctype html>
+<html lang="ar" dir="rtl" data-theme="dark">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>لوحة نتائج الاستبيان — Adaptive Business OS</title>
+    <meta name="robots" content="noindex, nofollow" />
+
+    <!-- Fonts: IBM Plex Sans Arabic -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
+
+    <style>
+      :root {
+        color-scheme: dark;
+        --bg: #0F0B09;
+        --bg-subtle: #16110E;
+        --card-bg: #1A1411;
+        --card-border: #2C211B;
+        --card-hover: #231A15;
+        
+        --caramel: #C88A4B;
+        --caramel-hover: #D89856;
+        --caramel-glow: rgba(200, 138, 75, 0.14);
+        --cafe: #844F28;
+        --espresso: #3D2314;
+        --almond: #D6C2B0;
+        
+        --ink-primary: #FAF7F2;
+        --ink-secondary: #C8BAB0;
+        --ink-muted: #8A7A6F;
+
+        --radius: 12px;
+        --radius-lg: 20px;
+        --ease: cubic-bezier(0.16, 1, 0.3, 1);
+        --font-mono: 'JetBrains Mono', monospace;
+      }
+
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+        font-family: 'IBM Plex Sans Arabic', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+      }
+
+      body {
+        background-color: var(--bg);
+        color: var(--ink-primary);
+        min-height: 100dvh;
+        line-height: 1.55;
+        overflow-x: hidden;
+        -webkit-font-smoothing: antialiased;
+      }
+
+      body::before {
+        content: '';
+        position: fixed;
+        inset: 0;
+        background: radial-gradient(circle at 50% 12%, var(--caramel-glow), transparent 60%);
+        pointer-events: none;
+        z-index: 0;
+      }
+
+      /* Topbar */
+      .topbar {
+        position: sticky;
+        top: 0;
+        z-index: 40;
+        background: rgba(15, 11, 9, 0.88);
+        backdrop-filter: blur(14px);
+        border-bottom: 1px solid var(--card-border);
+        padding: 14px 20px;
+      }
+      .topbar-grid {
+        max-width: 960px;
+        margin: 0 auto;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+      .brand-center {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-family: 'Plus Jakarta Sans', sans-serif;
+        text-decoration: none;
+      }
+      .brand-title {
+        font-size: 16.5px;
+        font-weight: 700;
+        color: var(--ink-primary);
+      }
+      .brand-badge {
+        background: var(--caramel);
+        color: #0F0B09;
+        font-size: 11px;
+        font-weight: 800;
+        padding: 2px 7px;
+        border-radius: 6px;
+      }
+
+      .btn-ghost {
+        background: #1E1612;
+        border: 1px solid #33251E;
+        color: var(--ink-primary);
+        font: inherit;
+        font-size: 13.5px;
+        font-weight: 600;
+        padding: 7px 14px;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: all 0.2s var(--ease);
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+      }
+      .btn-ghost:hover {
+        background: var(--card-hover);
+        border-color: var(--caramel);
+      }
+      .btn-primary {
+        background: var(--caramel);
+        color: #0F0B09;
+        border: none;
+        font: inherit;
+        font-size: 14px;
+        font-weight: 700;
+        padding: 8px 18px;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: all 0.2s var(--ease);
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+      }
+      .btn-primary:hover {
+        opacity: 0.92;
+        transform: translateY(-1px);
+      }
+
+      /* Container */
+      .dash-container {
+        position: relative;
+        z-index: 10;
+        max-width: 960px;
+        margin: 0 auto;
+        padding: 28px 20px 60px;
+      }
+
+      /* Login Card */
+      .login-wrap {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 70vh;
+      }
+      .login-card {
+        background: var(--card-bg);
+        border: 1px solid var(--card-border);
+        border-radius: var(--radius-lg);
+        padding: 38px 30px;
+        max-width: 420px;
+        width: 100%;
+        box-shadow: 0 24px 60px rgba(0, 0, 0, 0.85);
+      }
+      .field-group {
+        margin-top: 16px;
+      }
+      .field-group label {
+        display: block;
+        font-size: 13px;
+        font-weight: 600;
+        color: var(--ink-secondary);
+        margin-bottom: 6px;
+      }
+      .field-group input {
+        width: 100%;
+        background: var(--bg-subtle);
+        border: 1px solid var(--card-border);
+        border-radius: var(--radius);
+        color: var(--ink-primary);
+        font: inherit;
+        font-size: 14.5px;
+        padding: 12px 14px;
+        transition: border 0.2s var(--ease);
+      }
+      .field-group input:focus {
+        outline: none;
+        border-color: var(--caramel);
+        box-shadow: 0 0 0 3px color-mix(in srgb, var(--caramel) 20%, transparent);
+      }
+
+      /* KPI Cards */
+      .kpi-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 14px;
+        margin-bottom: 24px;
+      }
+      .kpi-card {
+        background: var(--card-bg);
+        border: 1px solid var(--card-border);
+        border-radius: var(--radius);
+        padding: 20px;
+      }
+      .kpi-val {
+        font-size: 28px;
+        font-weight: 800;
+        color: var(--caramel);
+        font-family: var(--font-mono);
+      }
+      .kpi-label {
+        font-size: 13.5px;
+        color: var(--ink-secondary);
+        margin-top: 4px;
+      }
+
+      /* Chart / Distribution Card */
+      .section-card {
+        background: var(--card-bg);
+        border: 1px solid var(--card-border);
+        border-radius: var(--radius-lg);
+        padding: 24px 22px;
+        margin-bottom: 20px;
+      }
+      .section-title {
+        font-size: 17px;
+        font-weight: 700;
+        color: var(--ink-primary);
+        margin-bottom: 16px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+      .bar-row {
+        margin-bottom: 12px;
+      }
+      .bar-header {
+        display: flex;
+        justify-content: space-between;
+        font-size: 13.5px;
+        margin-bottom: 5px;
+        color: var(--ink-secondary);
+      }
+      .bar-bg {
+        height: 10px;
+        background: var(--bg-subtle);
+        border-radius: 5px;
+        overflow: hidden;
+      }
+      .bar-fill {
+        height: 100%;
+        background: linear-gradient(90deg, var(--cafe), var(--caramel));
+        border-radius: 5px;
+        transition: width 0.5s var(--ease);
+      }
+
+      /* Feed Table / List */
+      .resp-card {
+        background: var(--bg-subtle);
+        border: 1px solid var(--card-border);
+        border-radius: var(--radius);
+        padding: 16px;
+        margin-bottom: 10px;
+        transition: border 0.2s var(--ease);
+      }
+      .resp-card:hover {
+        border-color: var(--caramel);
+      }
+      .resp-head {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 10px;
+        font-weight: 700;
+        font-size: 14px;
+      }
+      .resp-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 8px;
+        font-size: 13px;
+        color: var(--ink-secondary);
+      }
+
+      .hidden { display: none !important; }
+      .alert-box {
+        background: rgba(255, 75, 75, 0.12);
+        border: 1px solid #FF5A5A;
+        color: #FFA5A5;
+        padding: 10px 14px;
+        border-radius: 8px;
+        font-size: 13px;
+        margin-top: 12px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <header class="topbar">
+      <div class="topbar-grid">
+        <a href="/" class="brand-center" dir="ltr">
+          <span class="brand-title">Adaptive Business</span>
+          <span class="brand-badge">OS</span>
+        </a>
+
+        <div id="authActions" class="hidden" style="display: flex; gap: 8px;">
+          <button type="button" class="btn-ghost" onclick="fetchResults(true)">تحديث ↻</button>
+          <button type="button" class="btn-ghost" onclick="exportCSV()">تصدير Excel</button>
+          <button type="button" class="btn-ghost" onclick="exportJSON()">JSON</button>
+          <button type="button" class="btn-ghost" style="color: #FFA5A5;" onclick="logout()">خروج</button>
+        </div>
+      </div>
+    </header>
+
+    <div class="dash-container">
+
+      <!-- ================= LOGIN GATE ================= -->
+      <div id="loginGate" class="login-wrap">
+        <div class="login-card">
+          <div style="text-align: center; margin-bottom: 20px;">
+            <div style="width: 48px; height: 48px; border-radius: 12px; background: var(--bg-subtle); border: 1.5px solid var(--caramel); display: grid; place-items: center; margin: 0 auto 12px;">
+              <svg style="width: 22px; height: 22px; stroke: var(--caramel); stroke-width: 2.2; fill: none;" viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+            </div>
+            <h1 style="font-size: 20px; font-weight: 700;">تسجيل الدخول للنتائج</h1>
+            <p style="font-size: 13.5px; color: var(--ink-secondary); margin-top: 4px;">لوحة الإحصائيات والاستجابات المباشرة</p>
+          </div>
+
+          <form onsubmit="handleLogin(event)">
+            <div class="field-group">
+              <label>اسم المستخدم (Username)</label>
+              <input type="text" id="userInput" placeholder="tarteebat" required autocomplete="username" />
+            </div>
+
+            <div class="field-group">
+              <label>كلمة المرور (Password)</label>
+              <input type="password" id="passInput" placeholder="••••••••" required autocomplete="current-password" />
+            </div>
+
+            <div id="loginError" class="alert-box hidden">اسم المستخدم أو كلمة المرور غير صحيحة.</div>
+
+            <div style="margin-top: 24px;">
+              <button type="submit" class="btn-primary" style="width: 100%; justify-content: center; padding: 12px;">دخول اللوحة</button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <!-- ================= MAIN DASHBOARD ================= -->
+      <div id="mainDashboard" class="hidden">
+        
+        <!-- KPI Summary Cards -->
+        <div class="kpi-grid">
+          <div class="kpi-card">
+            <div class="kpi-val" id="kpiTotal">0</div>
+            <div class="kpi-label">إجمالي الاستجابات</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-val" id="kpiExp">0%</div>
+            <div class="kpi-label">لديهم خبرة عمل سابقة أو حالية</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-val" id="kpiImportance">0.0</div>
+            <div class="kpi-label">متوسط أهمية النظام (/5)</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-val" id="kpiAi">0.0</div>
+            <div class="kpi-label">متوسط الاهتمام بالذكاء الاصطناعي (/5)</div>
+          </div>
+        </div>
+
+        <!-- Question Breakdown Charts -->
+        <div class="section-card">
+          <div class="section-title">
+            <span>توزيع الفئات والأنظمة المفضلة</span>
+          </div>
+          <div id="chartsContainer">
+            <!-- Rendered breakdown bars -->
+          </div>
+        </div>
+
+        <!-- Responses Feed -->
+        <div class="section-card">
+          <div class="section-title">
+            <span>سجل الاستجابات بالتفصيل (<span id="feedCount">0</span>)</span>
+            <div style="display: flex; gap: 8px;">
+              <button type="button" class="btn-ghost" style="padding: 4px 10px; font-size: 12.5px;" onclick="exportCSV()">تنزيل Excel</button>
+            </div>
+          </div>
+
+          <div id="responsesFeed">
+            <!-- List of response cards -->
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- Script Logic -->
+    <script>
+      const AUTH_KEY = 'adaptive_survey_auth_session';
+      const LOCAL_KEY = 'adaptive_os_zain_responses_v5';
+      let surveyData = [];
+
+      document.addEventListener('DOMContentLoaded', () => {
+        const isAuth = sessionStorage.getItem(AUTH_KEY) === 'true';
+        if (isAuth) {
+          showDashboard();
+        }
+      });
+
+      function handleLogin(e) {
+        e.preventDefault();
+        const user = document.getElementById('userInput').value.trim();
+        const pass = document.getElementById('passInput').value.trim();
+
+        if (user === 'tarteebat' && pass === 'andamoor') {
+          sessionStorage.setItem(AUTH_KEY, 'true');
+          sessionStorage.setItem('auth_u', user);
+          sessionStorage.setItem('auth_p', pass);
+          document.getElementById('loginError').classList.add('hidden');
+          showDashboard();
+        } else {
+          document.getElementById('loginError').classList.remove('hidden');
+        }
+      }
+
+      function logout() {
+        sessionStorage.removeItem(AUTH_KEY);
+        sessionStorage.removeItem('auth_u');
+        sessionStorage.removeItem('auth_p');
+        window.location.reload();
+      }
+
+      function showDashboard() {
+        document.getElementById('loginGate').classList.add('hidden');
+        document.getElementById('mainDashboard').classList.remove('hidden');
+        document.getElementById('authActions').classList.remove('hidden');
+        document.getElementById('authActions').style.display = 'flex';
+        fetchResults();
+      }
+
+      async function fetchResults(isManualRefresh = false) {
+        const u = sessionStorage.getItem('auth_u') || 'tarteebat';
+        const p = sessionStorage.getItem('auth_p') || 'andamoor';
+
+        let remoteItems = [];
+        try {
+          const res = await fetch(`/api/results?user=${encodeURIComponent(u)}&pass=${encodeURIComponent(p)}`);
+          if (res.ok) {
+            const data = await res.json();
+            remoteItems = data.results || [];
+          }
+        } catch (err) {
+          console.warn('Backend fetch fallback to local storage', err);
+        }
+
+        // Merge with local storage
+        const localItems = JSON.parse(localStorage.getItem(LOCAL_KEY) || '[]');
+        const combined = [...remoteItems];
+
+        localItems.forEach(loc => {
+          if (!combined.some(c => c.id === loc.id || (c.timestamp === loc.timestamp && c.q1_gender === loc.q1_gender))) {
+            combined.push(loc);
+          }
+        });
+
+        surveyData = combined.sort((a, b) => new Date(b.timestamp || b.receivedAt || 0) - new Date(a.timestamp || a.receivedAt || 0));
+
+        renderKPIs();
+        renderCharts();
+        renderFeed();
+
+        if (isManualRefresh) alert('تم تحديث البيانات بنجاح!');
+      }
+
+      function renderKPIs() {
+        const total = surveyData.length;
+        document.getElementById('kpiTotal').innerText = total;
+
+        if (total === 0) {
+          document.getElementById('kpiExp').innerText = '0%';
+          document.getElementById('kpiImportance').innerText = '0.0';
+          document.getElementById('kpiAi').innerText = '0.0';
+          return;
+        }
+
+        const expCount = surveyData.filter(d => (d.q3_experience || '').includes('نعم') || (d.q3_experience || '').includes('بسيطة')).length;
+        document.getElementById('kpiExp').innerText = Math.round((expCount / total) * 100) + '%';
+
+        const impScores = surveyData.map(d => Number(d.q5_importance)).filter(n => !isNaN(n) && n > 0);
+        const avgImp = impScores.length ? (impScores.reduce((a, b) => a + b, 0) / impScores.length).toFixed(1) : '0.0';
+        document.getElementById('kpiImportance').innerText = avgImp;
+
+        const aiScores = surveyData.map(d => Number(d.q9_ai)).filter(n => !isNaN(n) && n > 0);
+        const avgAi = aiScores.length ? (aiScores.reduce((a, b) => a + b, 0) / aiScores.length).toFixed(1) : '0.0';
+        document.getElementById('kpiAi').innerText = avgAi;
+      }
+
+      function renderCharts() {
+        const container = document.getElementById('chartsContainer');
+        container.innerHTML = '';
+        const total = surveyData.length;
+
+        if (total === 0) {
+          container.innerHTML = `<div style="text-align: center; color: var(--ink-muted); padding: 30px;">لا توجد استجابات مسجلة بعد. عند ملء الاستبيان ستظهر الرسوم البيانية هنا.</div>`;
+          return;
+        }
+
+        // 1. Gender breakdown
+        appendBarGroup(container, 'الجنس (Gender)', countKey('q1_gender'), total);
+        // 2. Age breakdown
+        appendBarGroup(container, 'الفئة العمرية (Age Group)', countKey('q2_age'), total);
+        // 3. Experience breakdown
+        appendBarGroup(container, 'تجربة العمل داخل شركة أو مشروع', countKey('q3_experience'), total);
+        // 4. Best System
+        appendBarGroup(container, 'أفضل نظام تم استخدامه (Top Systems)', countKey('q11_best_system'), total);
+        // 5. Payment Preference
+        appendBarGroup(container, 'طريقة الدفع المفضلة (Payment Model)', countKey('q12_payment_pref'), total);
+        // 6. Switching Barriers
+        appendBarGroup(container, 'أكبر عائق للتبديل (Switching Barrier)', countKey('q13_switching'), total);
+      }
+
+      function countKey(key) {
+        const counts = {};
+        surveyData.forEach(d => {
+          const val = d[key];
+          if (!val) return;
+          if (Array.isArray(val)) {
+            val.forEach(v => counts[v] = (counts[v] || 0) + 1);
+          } else {
+            counts[val] = (counts[val] || 0) + 1;
+          }
+        });
+        return counts;
+      }
+
+      function appendBarGroup(container, title, counts, total) {
+        const block = document.createElement('div');
+        block.style.marginBottom = '22px';
+        block.innerHTML = `<div style="font-weight: 700; font-size: 14.5px; margin-bottom: 10px; color: var(--caramel);">${title}</div>`;
+
+        const sorted = Object.entries(counts).sort((a, b) => b[1] - a[1]);
+        if (sorted.length === 0) {
+          block.innerHTML += `<div style="font-size: 13px; color: var(--ink-muted);">لا توجد بيانات لهذا السؤال</div>`;
+        } else {
+          sorted.forEach(([label, count]) => {
+            const pct = Math.round((count / total) * 100);
+            block.innerHTML += `
+              <div class="bar-row">
+                <div class="bar-header">
+                  <span>${label}</span>
+                  <span><strong>${count}</strong> (${pct}%)</span>
+                </div>
+                <div class="bar-bg">
+                  <div class="bar-fill" style="width: ${pct}%"></div>
+                </div>
+              </div>
+            `;
+          });
+        }
+        container.appendChild(block);
+      }
+
+      function renderFeed() {
+        const feed = document.getElementById('responsesFeed');
+        document.getElementById('feedCount').innerText = surveyData.length;
+        feed.innerHTML = '';
+
+        if (surveyData.length === 0) {
+          feed.innerHTML = `<div style="text-align: center; color: var(--ink-muted); padding: 20px;">بانتظار وصول الاستجابات...</div>`;
+          return;
+        }
+
+        surveyData.forEach((item, index) => {
+          const card = document.createElement('div');
+          card.className = 'resp-card';
+          card.innerHTML = `
+            <div class="resp-head">
+              <span>استجابة #${surveyData.length - index} • <span style="color: var(--caramel);">${item.q1_gender || '-'} (${item.q2_age || '-'})</span></span>
+              <span style="font-size: 12px; color: var(--ink-muted); font-weight: normal;">${item.formattedTime || item.receivedAt || '-'}</span>
+            </div>
+            <div class="resp-grid">
+              <div><strong>الخبرة:</strong> ${item.q3_experience || '-'}</div>
+              <div><strong>أهمية النظام:</strong> ${item.q5_importance || '-'}/5</div>
+              <div><strong>أفضل نظام:</strong> ${item.q11_best_system || '-'}${item.q11_best_system_reason ? ' (' + item.q11_best_system_reason + ')' : ''}</div>
+              <div><strong>طريقة الدفع:</strong> ${item.q12_payment_pref || '-'}</div>
+              <div><strong>الذكاء الاصطناعي:</strong> ${item.q9_ai || '-'}/5</div>
+              <div><strong>قابلية التخصيص:</strong> ${item.q8_customization || '-'}/5</div>
+              <div style="grid-column: 1 / -1;"><strong>عوائق التبديل:</strong> ${item.q13_switching || '-'}</div>
+            </div>
+          `;
+          feed.appendChild(card);
+        });
+      }
+
+      function exportJSON() {
+        if (!surveyData.length) return alert('لا توجد بيانات للتصدير');
+        const blob = new Blob([JSON.stringify(surveyData, null, 2)], { type: 'application/json' });
+        const a = document.createElement('a');
+        a.href = URL.createObjectURL(blob);
+        a.download = `adaptive_os_results_${Date.now()}.json`;
+        a.click();
+      }
+
+      function exportCSV() {
+        if (!surveyData.length) return alert('لا توجد بيانات للتصدير');
+        const headers = [
+          'ID', 'الوقت', 'س1_الجنس', 'س2_العمر', 'س3_تجربة_العمل', 'س4_طريقة_التنظيم',
+          'س5_أهمية_النظام', 'س6_مشاكل_غياب_النظام', 'س7_أسباب_الرفض', 'س8_التخصيص',
+          'س9_الذكاء_الاصطناعي', 'س10_الأولوية', 'س11_أفضل_نظام_وسبب_تفضيله',
+          'س12_طريقة_الدفع_المفضلة', 'س13_عقبات_التبديل'
+        ];
+        const rows = surveyData.map(r => [
+          r.id,
+          r.formattedTime || r.receivedAt,
+          `"${r.q1_gender || ''}"`,
+          `"${r.q2_age || ''}"`,
+          `"${r.q3_experience || ''}"`,
+          `"${((r.q4_tools || []).join(', ') + (r.q4_tools_other ? ' - ' + r.q4_tools_other : ''))}"`,
+          r.q5_importance,
+          `"${((r.q6_problems || []).join(', ') + (r.q6_problems_other ? ' - ' + r.q6_problems_other : ''))}"`,
+          `"${((r.q7_rejection || []).join(', ') + (r.q7_rejection_other ? ' - ' + r.q7_rejection_other : ''))}"`,
+          r.q8_customization,
+          r.q9_ai,
+          `"${r.q10_priority || ''}"`,
+          `"${(r.q11_best_system || '') + (r.q11_best_system_reason ? ' | السبب: ' + r.q11_best_system_reason : '')}"`,
+          `"${r.q12_payment_pref || ''}"`,
+          `"${r.q13_switching || ''}"`
+        ]);
+        const csv = '\uFEFF' + [headers.join(','), ...rows.map(e => e.join(','))].join('\n');
+        const a = document.createElement('a');
+        a.href = URL.createObjectURL(new Blob([csv], { type: 'text/csv;charset=utf-8;' }));
+        a.download = `adaptive_os_results_${Date.now()}.csv`;
+        a.click();
+      }
+    </script>
+  </body>
+</html>
