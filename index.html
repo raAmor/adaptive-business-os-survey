@@ -485,6 +485,31 @@
         padding: 14px;
         font-size: 13px;
       }
+    
+      /* Toast notification for mandatory validation */
+      .toast-msg {
+        position: fixed;
+        bottom: 24px;
+        left: 50%;
+        transform: translateX(-50%) translateY(30px);
+        background: #2C1A12;
+        border: 1px solid var(--caramel);
+        color: var(--ink-primary);
+        padding: 10px 20px;
+        border-radius: 30px;
+        font-size: 13.5px;
+        font-weight: 600;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.6);
+        z-index: 999;
+        opacity: 0;
+        pointer-events: none;
+        transition: all 0.3s var(--ease);
+      }
+      .toast-msg.show {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+      }
+
     </style>
   </head>
 
@@ -1084,7 +1109,70 @@
         updateProgress();
         window.scrollTo({ top: 0, behavior: 'smooth' });
       }
-      function nextStep(idx) { showStep(idx); }
+
+      function showToast(msg = 'يرجى تحديد إجابتك للمتابعة ⚠️') {
+        const toast = document.getElementById('validationToast');
+        if (toast) {
+          toast.innerText = msg;
+          toast.classList.add('show');
+          setTimeout(() => toast.classList.remove('show'), 2500);
+        }
+      }
+
+      function validateStep(stepIdx) {
+        if (stepIdx === 0) return true;
+        if (stepIdx === 1) return !!answers.q1_gender;
+        if (stepIdx === 2) return !!answers.q2_age;
+        if (stepIdx === 3) return !!answers.q3_experience;
+        if (stepIdx === 4) {
+          const checked = document.querySelectorAll('[data-check="q4_tools"].selected').length;
+          const other = document.getElementById('q4_tools_other')?.value.trim();
+          return checked > 0 || !!other;
+        }
+        if (stepIdx === 5) return !!answers.q5_importance;
+        if (stepIdx === 6) {
+          const checked = document.querySelectorAll('[data-check="q6_problems"].selected').length;
+          const other = document.getElementById('q6_problems_other')?.value.trim();
+          return checked > 0 || !!other;
+        }
+        if (stepIdx === 7) {
+          const checked = document.querySelectorAll('[data-check="q7_rejection"].selected').length;
+          const other = document.getElementById('q7_rejection_other')?.value.trim();
+          return checked > 0 || !!other;
+        }
+        if (stepIdx === 8) return !!answers.q8_customization;
+        if (stepIdx === 9) return !!answers.q9_ai;
+        if (stepIdx === 10) {
+          const other = document.getElementById('q10_priority_other')?.value.trim();
+          return !!answers.q10_priority || !!other;
+        }
+        if (stepIdx === 11) {
+          const other = document.getElementById('q11_best_system_other')?.value.trim();
+          return !!answers.q11_best_system || !!other;
+        }
+        if (stepIdx === 12) {
+          const other = document.getElementById('q12_payment_pref_other')?.value.trim();
+          return !!answers.q12_payment_pref || !!other;
+        }
+        if (stepIdx === 13) {
+          const other = document.getElementById('q13_switching_other')?.value.trim();
+          return !!answers.q13_switching || !!other;
+        }
+        return true;
+      }
+
+      function nextStep(idx) {
+        if (!validateStep(currentStep)) {
+          const currentSlide = document.getElementById('slide-' + currentStep);
+          if (currentSlide) {
+            currentSlide.classList.add('shake');
+            setTimeout(() => currentSlide.classList.remove('shake'), 400);
+          }
+          showToast();
+          return;
+        }
+        showStep(idx);
+      }
       function prevStep(idx) { showStep(idx); }
 
       function updateProgress() {
@@ -1144,6 +1232,15 @@
 
       // ── Submit Survey ──────────────────────────
       function submitSurvey() {
+        if (!validateStep(13)) {
+          const currentSlide = document.getElementById('slide-13');
+          if (currentSlide) {
+            currentSlide.classList.add('shake');
+            setTimeout(() => currentSlide.classList.remove('shake'), 400);
+          }
+          showToast('يرجى تحديد إجابتك لإرسال الاستبيان ⚠️');
+          return;
+        }
         answers.q4_tools = Array.from(document.querySelectorAll('[data-check="q4_tools"].selected')).map(b => b.getAttribute('value'));
         answers.q4_tools_other = document.getElementById('q4_tools_other')?.value || '';
 
@@ -1215,5 +1312,7 @@
       }
 
       </script>
+      <!-- Validation Toast -->
+    <div id="validationToast" class="toast-msg">يرجى تحديد إجابتك للمتابعة ⚠️</div>
   </body>
 </html>
