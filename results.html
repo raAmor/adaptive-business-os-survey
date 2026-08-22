@@ -618,20 +618,22 @@
         ];
         const rows = surveyData.map(r => [
           r.id,
-          r.formattedTime || r.receivedAt,
+          r.formattedTime || r.receivedAt || '',
           `"${r.q1_gender || ''}"`,
           `"${r.q2_age || ''}"`,
           `"${r.q3_experience || ''}"`,
           `"${((r.q4_tools || []).join(', ') + (r.q4_tools_other ? ' - ' + r.q4_tools_other : ''))}"`,
-          r.q5_importance,
+          r.q5_importance || '',
           `"${((r.q6_problems || []).join(', ') + (r.q6_problems_other ? ' - ' + r.q6_problems_other : ''))}"`,
           `"${((r.q7_rejection || []).join(', ') + (r.q7_rejection_other ? ' - ' + r.q7_rejection_other : ''))}"`,
-          r.q8_customization,
-          r.q9_ai,
+          r.q8_customization || '',
+          r.q9_ai || '',
           `"${r.q10_priority || ''}"`,
           `"${(r.q11_best_system || '') + (r.q11_best_system_reason ? ' | السبب: ' + r.q11_best_system_reason : '')}"`,
           `"${r.q12_payment_pref || ''}"`,
-          `"${r.q13_switching || ''}"`, `"${r.q14_phone || ''}"`, `"${(r.q14_notes || '').replace(/"/g, '""')}"`
+          `"${r.q13_switching || ''}"`,
+          `"${r.q14_phone || ''}"`,
+          `"${(r.q14_notes || '').replace(/"/g, '""')}"`
         ]);
         const csv = '\uFEFF' + [headers.join(','), ...rows.map(e => e.join(','))].join('\n');
         const a = document.createElement('a');
