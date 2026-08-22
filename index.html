@@ -1263,17 +1263,7 @@
 
       // ── Submit Survey ──────────────────────────
       function submitSurvey() {
-        // Step 14 is optional contact/notes
-        // validation check
-
-          const currentSlide = document.getElementById('slide-13');
-          if (currentSlide) {
-            currentSlide.classList.add('shake');
-            setTimeout(() => currentSlide.classList.remove('shake'), 400);
-          }
-          showToast('يرجى تحديد إجابتك لإرسال الاستبيان ⚠️');
-          return;
-        }
+        // Collect answers
         answers.q4_tools = Array.from(document.querySelectorAll('[data-check="q4_tools"].selected')).map(b => b.getAttribute('value'));
         answers.q4_tools_other = document.getElementById('q4_tools_other')?.value || '';
 
