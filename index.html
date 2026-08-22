@@ -1,0 +1,1322 @@
+<!doctype html>
+<html lang="ar" dir="rtl" data-theme="dark">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>Adaptive Business OS — استبيان إدارة العمل</title>
+    <meta name="description" content="استبيان تفاعلي حول أنظمة وطرق إدارة العمل داخل الشركات والمشاريع في العراق." />
+    
+    <!-- Primary Font: IBM Plex Sans Arabic -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
+    
+    <style>
+      /* ── Quiet Luxury Browns: Permanent Dark Mode ── */
+      :root {
+        color-scheme: dark;
+
+        --bg: #0F0B09;
+        --bg-subtle: #16110E;
+        --card-bg: #1A1411;
+        --card-border: #2C211B;
+        --card-hover: #231A15;
+        
+        --caramel: #C88A4B;
+        --caramel-hover: #D89856;
+        --caramel-glow: rgba(200, 138, 75, 0.14);
+        --cafe: #844F28;
+        --espresso: #3D2314;
+        --mahogany: #24140D;
+        --almond: #D6C2B0;
+        
+        --ink-primary: #FAF7F2;
+        --ink-secondary: #C8BAB0;
+        --ink-muted: #8A7A6F;
+        
+        --opt-bg: #140E0B;
+        --opt-border: #281E18;
+        --opt-hover-border: #4A372D;
+        --opt-active-bg: #271A12;
+        --opt-active-border: #C88A4B;
+        
+        --btn-primary-bg: #C88A4B;
+        --btn-primary-ink: #0F0B09;
+        --btn-secondary-bg: #1E1612;
+        --btn-secondary-border: #33251E;
+        --btn-secondary-ink: #FAF7F2;
+        
+        --radius: 12px;
+        --radius-lg: 20px;
+        --ease: cubic-bezier(0.16, 1, 0.3, 1);
+        --font-mono: 'JetBrains Mono', monospace;
+      }
+
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+        font-family: 'IBM Plex Sans Arabic', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+      }
+
+      body, button, input, textarea, select, h1, h2, h3, p, span, div {
+        font-family: 'IBM Plex Sans Arabic', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+      }
+
+      body {
+        background-color: var(--bg);
+        color: var(--ink-primary);
+        min-height: 100dvh;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        line-height: 1.55;
+        overflow-x: hidden;
+        -webkit-font-smoothing: antialiased;
+      }
+
+      body::before {
+        content: '';
+        position: fixed;
+        inset: 0;
+        background: radial-gradient(circle at 50% 12%, var(--caramel-glow), transparent 60%);
+        pointer-events: none;
+        z-index: 0;
+      }
+
+      /* Top Progress Bar */
+      .progress-container {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 3px;
+        background: var(--card-border);
+        z-index: 50;
+      }
+      .progress-fill {
+        height: 100%;
+        width: 0%;
+        background: linear-gradient(90deg, var(--cafe), var(--caramel));
+        transition: width 0.4s var(--ease);
+      }
+
+      /* Strictly Centered Topbar */
+      .topbar {
+        position: sticky;
+        top: 0;
+        z-index: 40;
+        background: rgba(15, 11, 9, 0.88);
+        backdrop-filter: blur(14px);
+        border-bottom: 1px solid var(--card-border);
+        padding: 14px 20px;
+      }
+      .topbar-grid {
+        max-width: 720px;
+        margin: 0 auto;
+        display: grid;
+        grid-template-columns: 1fr auto 1fr;
+        align-items: center;
+      }
+
+      .topbar-side.start {
+        display: flex;
+        justify-content: flex-start;
+      }
+      .topbar-side.end {
+        display: flex;
+        justify-content: flex-end;
+      }
+
+      .brand-center {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        font-family: 'Plus Jakarta Sans', sans-serif;
+      }
+      .brand-title {
+        font-size: 16.5px;
+        font-weight: 700;
+        color: var(--ink-primary);
+        letter-spacing: -0.02em;
+      }
+      .brand-badge {
+        background: var(--caramel);
+        color: #0F0B09;
+        font-size: 11px;
+        font-weight: 800;
+        padding: 2px 7px;
+        border-radius: 6px;
+        letter-spacing: 0.04em;
+      }
+
+      .nav-btn {
+        background: var(--card-bg);
+        border: 1px solid var(--card-border);
+        color: var(--ink-secondary);
+        font: inherit;
+        font-size: 13px;
+        font-weight: 600;
+        padding: 6px 14px;
+        border-radius: 8px;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        gap: 7px;
+        white-space: nowrap;
+        transition: all 0.2s var(--ease);
+      }
+      .nav-btn:hover {
+        background: var(--card-hover);
+        color: var(--ink-primary);
+        border-color: var(--caramel);
+      }
+      .dot-pill {
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background: var(--caramel);
+      }
+
+      /* Main Stage */
+      main {
+        position: relative;
+        z-index: 10;
+        max-width: 720px;
+        margin: 0 auto;
+        padding: 24px 20px 48px;
+        width: 100%;
+        flex-grow: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+      }
+
+      /* Polaris Card */
+      .polaris-card {
+        background: var(--card-bg);
+        border: 1px solid var(--card-border);
+        border-radius: var(--radius-lg);
+        padding: 34px 28px;
+        box-shadow: 0 24px 48px -20px rgba(0, 0, 0, 0.7);
+        position: relative;
+      }
+
+      .step-slide {
+        display: none;
+      }
+      .step-slide.active {
+        display: block;
+        animation: slideIn 0.3s var(--ease) both;
+      }
+      @keyframes slideIn {
+        from { opacity: 0; transform: translateY(12px); }
+        to { opacity: 1; transform: translateY(0); }
+      }
+
+      .q-title {
+        font-size: clamp(17px, 3vw, 20px);
+        font-weight: 600;
+        color: var(--ink-primary);
+        line-height: 1.45;
+        letter-spacing: -0.01em;
+      }
+
+      /* Options Grid */
+      .grid-options {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 10px;
+        margin-top: 22px;
+      }
+      .grid-options.two-cols {
+        grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+      }
+
+      .polaris-opt {
+        background: var(--opt-bg);
+        border: 1px solid var(--opt-border);
+        border-radius: var(--radius);
+        padding: 14px 16px;
+        color: var(--ink-primary);
+        font: inherit;
+        font-size: 15px;
+        font-weight: 500;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        cursor: pointer;
+        text-align: start;
+        transition: all 0.18s var(--ease);
+      }
+      .polaris-opt:hover {
+        background: var(--card-hover);
+        border-color: var(--opt-hover-border);
+        transform: translateY(-1px);
+      }
+      .polaris-opt.selected {
+        background: var(--opt-active-bg);
+        border-color: var(--opt-active-border);
+        box-shadow: 0 0 0 1px var(--opt-active-border);
+      }
+
+      .box-indicator {
+        width: 20px;
+        height: 20px;
+        border-radius: 6px;
+        border: 1.5px solid var(--opt-border);
+        display: grid;
+        place-items: center;
+        flex-shrink: 0;
+        transition: all 0.18s var(--ease);
+        background: var(--bg);
+      }
+      .polaris-opt.selected .box-indicator {
+        background: var(--caramel);
+        border-color: var(--caramel);
+      }
+      .box-indicator svg {
+        width: 13px;
+        height: 13px;
+        stroke: #0F0B09;
+        stroke-width: 3;
+        fill: none;
+        opacity: 0;
+        transform: scale(0.5);
+        transition: all 0.2s var(--ease);
+      }
+      .polaris-opt.selected .box-indicator svg {
+        opacity: 1;
+        transform: scale(1);
+      }
+
+      /* Scale Rating */
+      .scale-container {
+        margin-top: 22px;
+        background: var(--bg-subtle);
+        border: 1px solid var(--card-border);
+        border-radius: var(--radius);
+        padding: 18px;
+      }
+      .scale-labels {
+        display: flex;
+        justify-content: space-between;
+        font-size: 13px;
+        font-weight: 600;
+        color: var(--ink-muted);
+        margin-bottom: 12px;
+      }
+      .scale-row {
+        display: flex;
+        gap: 8px;
+      }
+      .scale-pill {
+        flex: 1;
+        height: 46px;
+        background: var(--opt-bg);
+        border: 1px solid var(--opt-border);
+        border-radius: var(--radius);
+        color: var(--ink-primary);
+        font-family: var(--font-mono);
+        font-size: 16.5px;
+        font-weight: 700;
+        cursor: pointer;
+        transition: all 0.18s var(--ease);
+      }
+      .scale-pill:hover {
+        border-color: var(--caramel);
+        background: var(--card-hover);
+        transform: translateY(-2px);
+      }
+      .scale-pill.selected {
+        background: var(--caramel);
+        border-color: var(--caramel);
+        color: #0F0B09;
+        transform: scale(1.03);
+      }
+
+      /* Inputs */
+      textarea,
+      input[type="text"] {
+        width: 100%;
+        background: var(--opt-bg);
+        border: 1px solid var(--opt-border);
+        border-radius: var(--radius);
+        color: var(--ink-primary);
+        font: inherit;
+        font-size: 15px;
+        padding: 13px 15px;
+        transition: border 0.2s var(--ease);
+      }
+      textarea:focus,
+      input[type="text"]:focus {
+        outline: none;
+        border-color: var(--caramel);
+        box-shadow: 0 0 0 3px color-mix(in srgb, var(--caramel) 20%, transparent);
+      }
+
+      /* Action Bar */
+      .action-bar {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-top: 26px;
+        padding-top: 18px;
+        border-top: 1px solid var(--card-border);
+      }
+      .btn-primary {
+        background: var(--btn-primary-bg);
+        color: var(--btn-primary-ink);
+        border: none;
+        font: inherit;
+        font-size: 15px;
+        font-weight: 700;
+        padding: 12px 24px;
+        border-radius: var(--radius);
+        cursor: pointer;
+        flex: 1;
+        transition: all 0.18s var(--ease);
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+      }
+      .btn-primary:hover {
+        opacity: 0.92;
+        transform: translateY(-1px);
+      }
+      .btn-ghost {
+        background: var(--btn-secondary-bg);
+        border: 1px solid var(--btn-secondary-border);
+        color: var(--btn-secondary-ink);
+        font: inherit;
+        font-size: 14.5px;
+        font-weight: 600;
+        padding: 12px 18px;
+        border-radius: var(--radius);
+        cursor: pointer;
+        transition: all 0.18s var(--ease);
+      }
+      .btn-ghost:hover {
+        background: var(--card-hover);
+        border-color: var(--opt-hover-border);
+      }
+
+      /* Time Note */
+      .time-note {
+        display: flex;
+        align-items: center;
+        gap: 7px;
+        font-size: 13.5px;
+        color: var(--ink-muted);
+        margin-top: 18px;
+        padding: 10px 14px;
+        background: var(--bg-subtle);
+        border-radius: 8px;
+        border: 1px solid var(--card-border);
+      }
+      .time-note svg {
+        width: 16px;
+        height: 16px;
+        stroke: var(--caramel);
+      }
+
+      .shake {
+        animation: shake 0.35s ease-in-out;
+      }
+      @keyframes shake {
+        0%, 100% { transform: translateX(0); }
+        25% { transform: translateX(-5px); }
+        75% { transform: translateX(5px); }
+      }
+
+      /* Modal */
+      .modal-overlay {
+        position: fixed;
+        inset: 0;
+        background: rgba(10, 7, 5, 0.82);
+        backdrop-filter: blur(8px);
+        z-index: 100;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 16px;
+      }
+      .modal-overlay.hidden {
+        display: none;
+      }
+      .modal-panel {
+        background: var(--card-bg);
+        border: 1px solid var(--card-border);
+        border-radius: var(--radius-lg);
+        max-width: 620px;
+        width: 100%;
+        max-height: 85vh;
+        display: flex;
+        flex-direction: column;
+        box-shadow: 0 24px 60px rgba(0, 0, 0, 0.85);
+      }
+      .modal-head {
+        padding: 16px 20px;
+        border-bottom: 1px solid var(--card-border);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+      .modal-content {
+        padding: 20px;
+        overflow-y: auto;
+        flex-grow: 1;
+        display: grid;
+        gap: 10px;
+      }
+      .modal-foot {
+        padding: 14px 20px;
+        border-top: 1px solid var(--card-border);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+      .item-log {
+        background: var(--bg-subtle);
+        border: 1px solid var(--card-border);
+        border-radius: var(--radius);
+        padding: 14px;
+        font-size: 13px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <!-- Top Progress Bar -->
+    <div class="progress-container"><div class="progress-fill" id="progressBar"></div></div>
+
+    <!-- Strictly Centered Header -->
+    <header class="topbar">
+      <div class="topbar-grid">
+        <div class="topbar-side start"></div>
+
+        <div class="brand-center" dir="ltr">
+          <span class="brand-title">Adaptive Business</span>
+          <span class="brand-badge">OS</span>
+        </div>
+
+        <div class="topbar-side end">
+          <button class="nav-btn" type="button" onclick="openModal()">
+            <span class="dot-pill"></span>
+            الاستجابات (<span id="storedCount">0</span>)
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Container -->
+    <main>
+      
+      <!-- ================= STEP 0: Landing ================= -->
+      <div class="polaris-card step-slide active" id="slide-0">
+        <h1 class="q-title" style="font-size: 22px;">استبيان حول أنظمة إدارة العمل داخل الشركات والمشاريع</h1>
+        
+        <p style="color: var(--ink-secondary); font-size: 14.5px; margin-top: 8px; line-height: 1.6;">
+          هذا الاستبيان جزء من بحث يهدف إلى معرفة آراء وتجارب الناس حول طرق إدارة العمل داخل الشركات والمشاريع، والمشاكل اللي ممكن تصير بسبب عدم وجود نظام إداري متكامل أو بسبب استخدام أنظمة وبرامج متعددة. جميع الإجابات تستخدم لأغراض البحث فقط.
+        </p>
+
+        <div class="time-note">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+          <span>الوقت المتوقع لإكمال الاستبيان: <strong>3 إلى 5 دقائق</strong></span>
+        </div>
+
+        <div class="action-bar" style="margin-top: 24px;">
+          <button type="button" class="btn-primary" onclick="nextStep(1)">
+            <span>بدء الاستبيان</span>
+            <span>←</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- ================= STEP 1 (NEW - Gender) ================= -->
+      <div class="polaris-card step-slide" id="slide-1">
+        <h2 class="q-title">1. الجنس</h2>
+
+        <div class="grid-options" data-name="q1_gender">
+          <button type="button" class="polaris-opt" onclick="selectSingle(this, 'q1_gender', 'ذكر', 2)">
+            <span class="box-indicator"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></span>
+            <span>ذكر</span>
+          </button>
+          <button type="button" class="polaris-opt" onclick="selectSingle(this, 'q1_gender', 'أنثى', 2)">
+            <span class="box-indicator"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></span>
+            <span>أنثى</span>
+          </button>
+          <button type="button" class="polaris-opt" onclick="selectSingle(this, 'q1_gender', 'غير ذلك', 2)">
+            <span class="box-indicator"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></span>
+            <span>غير ذلك</span>
+          </button>
+        </div>
+
+        <div class="action-bar">
+          <button type="button" class="btn-ghost" onclick="prevStep(0)">السابق</button>
+          <button type="button" class="btn-primary" onclick="nextStep(2)">التالي</button>
+        </div>
+      </div>
+
+      <!-- ================= STEP 2 (NEW - Age) ================= -->
+      <div class="polaris-card step-slide" id="slide-2">
+        <h2 class="q-title">2. الفئة العمرية</h2>
+
+        <div class="grid-options" data-name="q2_age">
+          <button type="button" class="polaris-opt" onclick="selectSingle(this, 'q2_age', 'أقل من 18 سنة', 3)">
+            <span class="box-indicator"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></span>
+            <span>أقل من 18 سنة</span>
+          </button>
+          <button type="button" class="polaris-opt" onclick="selectSingle(this, 'q2_age', '18 - 24 سنة', 3)">
+            <span class="box-indicator"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></span>
+            <span>18 - 24 سنة</span>
+          </button>
+          <button type="button" class="polaris-opt" onclick="selectSingle(this, 'q2_age', '25 - 34 سنة', 3)">
+            <span class="box-indicator"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></span>
+            <span>25 - 34 سنة</span>
+          </button>
+          <button type="button" class="polaris-opt" onclick="selectSingle(this, 'q2_age', '35 - 44 سنة', 3)">
+            <span class="box-indicator"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></span>
+            <span>35 - 44 سنة</span>
+          </button>
+          <button type="button" class="polaris-opt" onclick="selectSingle(this, 'q2_age', '45 سنة فأكثر', 3)">
+            <span class="box-indicator"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></span>
+            <span>45 سنة فأكثر</span>
+          </button>
+        </div>
+
+        <div class="action-bar">
+          <button type="button" class="btn-ghost" onclick="prevStep(1)">السابق</button>
+          <button type="button" class="btn-primary" onclick="nextStep(3)">التالي</button>
+        </div>
+      </div>
+
+      <!-- ================= STEP 3 (was 1: Experience) ================= -->
+      <div class="polaris-card step-slide" id="slide-3">
+        <h2 class="q-title">3. هل عندك تجربة حالية أو سابقة بالعمل داخل شركة أو مشروع؟</h2>
+
+        <div class="grid-options" data-name="q3_experience">
+          <button type="button" class="polaris-opt" onclick="selectSingle(this, 'q3_experience', 'نعم، أشتغل حالياً', 4)">
+            <span class="box-indicator"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></span>
+            <span>نعم، أشتغل حالياً</span>
+          </button>
+          <button type="button" class="polaris-opt" onclick="selectSingle(this, 'q3_experience', 'نعم، عندي تجربة سابقة', 4)">
+            <span class="box-indicator"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></span>
+            <span>نعم، عندي تجربة سابقة</span>
+          </button>
+          <button type="button" class="polaris-opt" onclick="selectSingle(this, 'q3_experience', 'عندي تجربة بسيطة', 4)">
+            <span class="box-indicator"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></span>
+            <span>عندي تجربة بسيطة</span>
+          </button>
+          <button type="button" class="polaris-opt" onclick="selectSingle(this, 'q3_experience', 'لا، ما عندي تجربة عمل', 4)">
+            <span class="box-indicator"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></span>
+            <span>لا، ما عندي تجربة عمل</span>
+          </button>
+        </div>
+
+        <div class="action-bar">
+          <button type="button" class="btn-ghost" onclick="prevStep(2)">السابق</button>
+          <button type="button" class="btn-primary" onclick="nextStep(4)">التالي</button>
+        </div>
+      </div>
+
+      <!-- ================= STEP 4 (was 2: Tools) ================= -->
+      <div class="polaris-card step-slide" id="slide-4">
+        <h2 class="q-title">4. إذا عندك تجربة عمل، شلون كانت أغلب المعلومات والمهام تنظم؟</h2>
+
+        <div class="grid-options two-cols">
+          <button type="button" class="polaris-opt" data-check="q4_tools" value="ورقياً" onclick="toggleCheck(this)">
+            <span class="box-indicator"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></span>
+            <span>ورقياً</span>
+          </button>
+          <button type="button" class="polaris-opt" data-check="q4_tools" value="Excel أو Google Sheets" onclick="toggleCheck(this)">
+            <span class="box-indicator"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></span>
+            <span dir="ltr">Excel أو Google Sheets</span>
+          </button>
+          <button type="button" class="polaris-opt" data-check="q4_tools" value="WhatsApp أو Telegram" onclick="toggleCheck(this)">
+            <span class="box-indicator"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></span>
+            <span dir="ltr">WhatsApp أو Telegram</span>
+          </button>
+          <button type="button" class="polaris-opt" data-check="q4_tools" value="نظام محاسبي" onclick="toggleCheck(this)">
+            <span class="box-indicator"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></span>
+            <span>نظام محاسبي</span>
+          </button>
+          <button type="button" class="polaris-opt" data-check="q4_tools" value="POS / نقطة بيع وكاشير (مثل Foodics)" onclick="toggleCheck(this)">
+            <span class="box-indicator"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></span>
+            <span>POS / نقطة بيع وكاشير (مثل Foodics)</span>
+          </button>
+          <button type="button" class="polaris-opt" data-check="q4_tools" value="نظام ERP" onclick="toggleCheck(this)">
+            <span class="box-indicator"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></span>
+            <span>نظام ERP</span>
+          </button>
+          <button type="button" class="polaris-opt" data-check="q4_tools" value="نظام خاص مبرمج للشركة (Custom)" onclick="toggleCheck(this)">
+            <span class="box-indicator"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></span>
+            <span>نظام خاص مبرمج للشركة (Custom)</span>
+          </button>
+          <button type="button" class="polaris-opt" data-check="q4_tools" value="أكثر من طريقة بنفس الوقت" onclick="toggleCheck(this)">
+            <span class="box-indicator"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></span>
+            <span>أكثر من طريقة بنفس الوقت</span>
+          </button>
+          <button type="button" class="polaris-opt" data-check="q4_tools" value="ما عندي تجربة عمل" onclick="toggleCheck(this)">
+            <span class="box-indicator"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></span>
+            <span>ما عندي تجربة عمل</span>
+          </button>
+        </div>
+
+        <div style="margin-top: 12px;">
+          <input type="text" id="q4_tools_other" placeholder="أخرى (يرجى التحديد)...">
+        </div>
+
+        <div class="action-bar">
+          <button type="button" class="btn-ghost" onclick="prevStep(3)">السابق</button>
+          <button type="button" class="btn-primary" onclick="nextStep(5)">التالي</button>
+        </div>
+      </div>
+
+      <!-- ================= STEP 5 (was 3: Importance) ================= -->
+      <div class="polaris-card step-slide" id="slide-5">
+        <h2 class="q-title">5. برأيك، شكد وجود نظام إلكتروني منظم مهم لنجاح أي شركة أو مشروع؟</h2>
+
+        <div class="scale-container">
+          <div class="scale-labels">
+            <span>غير مهم أبداً</span>
+            <span>مهم جداً</span>
+          </div>
+          <div class="scale-row" data-scale="q5_importance">
+            <button type="button" class="scale-pill" onclick="selectScale(this, 'q5_importance', 1, 6)">1</button>
+            <button type="button" class="scale-pill" onclick="selectScale(this, 'q5_importance', 2, 6)">2</button>
+            <button type="button" class="scale-pill" onclick="selectScale(this, 'q5_importance', 3, 6)">3</button>
+            <button type="button" class="scale-pill" onclick="selectScale(this, 'q5_importance', 4, 6)">4</button>
+            <button type="button" class="scale-pill" onclick="selectScale(this, 'q5_importance', 5, 6)">5</button>
+          </div>
+        </div>
+
+        <div class="action-bar">
+          <button type="button" class="btn-ghost" onclick="prevStep(4)">السابق</button>
+          <button type="button" class="btn-primary" onclick="nextStep(6)">التالي</button>
+        </div>
+      </div>
+
+      <!-- ================= STEP 6 (was 4: Problems) ================= -->
+      <div class="polaris-card step-slide" id="slide-6">
+        <h2 class="q-title">6. برأيك، شنو أكثر المشاكل اللي ممكن تسببها إدارة العمل بدون نظام إلكتروني متكامل؟</h2>
+
+        <div class="grid-options two-cols">
+          <button type="button" class="polaris-opt" data-check="q6_problems" value="ضياع المعلومات" onclick="toggleCheck(this)">
+            <span class="box-indicator"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></span>
+            <span>ضياع المعلومات</span>
+          </button>
+          <button type="button" class="polaris-opt" data-check="q6_problems" value="كثرة الأخطاء البشرية" onclick="toggleCheck(this)">
+            <span class="box-indicator"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></span>
+            <span>كثرة الأخطاء البشرية</span>
+          </button>
+          <button type="button" class="polaris-opt" data-check="q6_problems" value="تأخير إنجاز العمل" onclick="toggleCheck(this)">
+            <span class="box-indicator"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></span>
+            <span>تأخير إنجاز العمل</span>
+          </button>
+          <button type="button" class="polaris-opt" data-check="q6_problems" value="تكرار إدخال نفس المعلومات" onclick="toggleCheck(this)">
+            <span class="box-indicator"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></span>
+            <span>تكرار إدخال نفس المعلومات</span>
+          </button>
+          <button type="button" class="polaris-opt" data-check="q6_problems" value="صعوبة متابعة المهام" onclick="toggleCheck(this)">
+            <span class="box-indicator"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></span>
+            <span>صعوبة متابعة المهام</span>
+          </button>
+          <button type="button" class="polaris-opt" data-check="q6_problems" value="صعوبة متابعة الطلبات" onclick="toggleCheck(this)">
+            <span class="box-indicator"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></span>
+            <span>صعوبة متابعة الطلبات</span>
+          </button>
+          <button type="button" class="polaris-opt" data-check="q6_problems" value="مشاكل بالمخزون" onclick="toggleCheck(this)">
+            <span class="box-indicator"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></span>
+            <span>مشاكل بالمخزون</span>
+          </button>
+          <button type="button" class="polaris-opt" data-check="q6_problems" value="صعوبة متابعة المبيعات" onclick="toggleCheck(this)">
+            <span class="box-indicator"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></span>
+            <span>صعوبة متابعة المبيعات</span>
+          </button>
+          <button type="button" class="polaris-opt" data-check="q6_problems" value="ضعف التواصل بين الأقسام" onclick="toggleCheck(this)">
+            <span class="box-indicator"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></span>
+            <span>ضعف التواصل بين الأقسام</span>
+          </button>
+          <button type="button" class="polaris-opt" data-check="q6_problems" value="صعوبة استخراج التقارير" onclick="toggleCheck(this)">
+            <span class="box-indicator"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></span>
+            <span>صعوبة استخراج التقارير</span>
+          </button>
+          <button type="button" class="polaris-opt" data-check="q6_problems" value="الاعتماد الزائد على أشخاص معينين للحصول على المعلومات" onclick="toggleCheck(this)">
+            <span class="box-indicator"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></span>
+            <span>الاعتماد الزائد على أشخاص معينين</span>
+          </button>
+          <button type="button" class="polaris-opt" data-check="q6_problems" value="ما أشوف فرق كبير" onclick="toggleCheck(this)">
+            <span class="box-indicator"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></span>
+            <span>ما أشوف فرق كبير</span>
+          </button>
+        </div>
+
+        <div style="margin-top: 12px;">
+          <input type="text" id="q6_problems_other" placeholder="أخرى (يرجى التحديد)...">
+        </div>
+
+        <div class="action-bar">
+          <button type="button" class="btn-ghost" onclick="prevStep(5)">السابق</button>
+          <button type="button" class="btn-primary" onclick="nextStep(7)">التالي</button>
+        </div>
+      </div>
+
+      <!-- ================= STEP 7 (was 5: Rejection - Refined) ================= -->
+      <div class="polaris-card step-slide" id="slide-7">
+        <h2 class="q-title">7. برأيك، شنو أكثر الأشياء اللي ممكن تخلي الموظف ما يحب يستخدم نظام إداري؟</h2>
+
+        <div class="grid-options two-cols">
+          <button type="button" class="polaris-opt" data-check="q7_rejection" value="واجهة صعبة وخطوات معقدة" onclick="toggleCheck(this)">
+            <span class="box-indicator"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></span>
+            <span>واجهة صعبة وخطوات معقدة</span>
+          </button>
+          <button type="button" class="polaris-opt" data-check="q7_rejection" value="النظام بطيء" onclick="toggleCheck(this)">
+            <span class="box-indicator"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></span>
+            <span>النظام بطيء</span>
+          </button>
+          <button type="button" class="polaris-opt" data-check="q7_rejection" value="يحتاج تدريب طويل" onclick="toggleCheck(this)">
+            <span class="box-indicator"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></span>
+            <span>يحتاج تدريب طويل</span>
+          </button>
+          <button type="button" class="polaris-opt" data-check="q7_rejection" value="يحتاج إدخال يدوي هواية" onclick="toggleCheck(this)">
+            <span class="box-indicator"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></span>
+            <span>يحتاج إدخال يدوي هواية</span>
+          </button>
+          <button type="button" class="polaris-opt" data-check="q7_rejection" value="ما يتناسب ويا طريقة عمل الشركة" onclick="toggleCheck(this)">
+            <span class="box-indicator"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></span>
+            <span>ما يتناسب ويا طريقة عمل الشركة</span>
+          </button>
+          <button type="button" class="polaris-opt" data-check="q7_rejection" value="يحتاج استخدام برامج ثانية وياه" onclick="toggleCheck(this)">
+            <span class="box-indicator"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></span>
+            <span>يحتاج استخدام برامج ثانية وياه</span>
+          </button>
+          <button type="button" class="polaris-opt" data-check="q7_rejection" value="يزيد شغل الموظف بدل ما يقلله" onclick="toggleCheck(this)">
+            <span class="box-indicator"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></span>
+            <span>يزيد شغل الموظف بدل ما يقلله</span>
+          </button>
+        </div>
+
+        <div style="margin-top: 12px;">
+          <input type="text" id="q7_rejection_other" placeholder="أخرى (يرجى التحديد)...">
+        </div>
+
+        <div class="action-bar">
+          <button type="button" class="btn-ghost" onclick="prevStep(6)">السابق</button>
+          <button type="button" class="btn-primary" onclick="nextStep(8)">التالي</button>
+        </div>
+      </div>
+
+      <!-- ================= STEP 8 (was 6: Customization) ================= -->
+      <div class="polaris-card step-slide" id="slide-8">
+        <h2 class="q-title">8. برأيك، شكد مهم يكون النظام قابل للتخصيص حسب طبيعة وطريقة عمل كل شركة؟</h2>
+
+        <div class="scale-container">
+          <div class="scale-labels">
+            <span>غير مهم</span>
+            <span>مهم جداً</span>
+          </div>
+          <div class="scale-row" data-scale="q8_customization">
+            <button type="button" class="scale-pill" onclick="selectScale(this, 'q8_customization', 1, 9)">1</button>
+            <button type="button" class="scale-pill" onclick="selectScale(this, 'q8_customization', 2, 9)">2</button>
+            <button type="button" class="scale-pill" onclick="selectScale(this, 'q8_customization', 3, 9)">3</button>
+            <button type="button" class="scale-pill" onclick="selectScale(this, 'q8_customization', 4, 9)">4</button>
+            <button type="button" class="scale-pill" onclick="selectScale(this, 'q8_customization', 5, 9)">5</button>
+          </div>
+        </div>
+
+        <div class="action-bar">
+          <button type="button" class="btn-ghost" onclick="prevStep(7)">السابق</button>
+          <button type="button" class="btn-primary" onclick="nextStep(9)">التالي</button>
+        </div>
+      </div>
+
+      <!-- ================= STEP 9 (was 7: AI Assistant - Refined) ================= -->
+      <div class="polaris-card step-slide" id="slide-9">
+        <h2 class="q-title">9. إذا النظام بيه مساعد ذكاء اصطناعي تسأله مباشرة عن المبيعات والمخزون والتقارير، شكد تشوف هاي الميزة مفيدة؟</h2>
+
+        <div class="scale-container">
+          <div class="scale-labels">
+            <span>غير مفيدة أبداً</span>
+            <span>مفيدة جداً</span>
+          </div>
+          <div class="scale-row" data-scale="q9_ai">
+            <button type="button" class="scale-pill" onclick="selectScale(this, 'q9_ai', 1, 10)">1</button>
+            <button type="button" class="scale-pill" onclick="selectScale(this, 'q9_ai', 2, 10)">2</button>
+            <button type="button" class="scale-pill" onclick="selectScale(this, 'q9_ai', 3, 10)">3</button>
+            <button type="button" class="scale-pill" onclick="selectScale(this, 'q9_ai', 4, 10)">4</button>
+            <button type="button" class="scale-pill" onclick="selectScale(this, 'q9_ai', 5, 10)">5</button>
+          </div>
+        </div>
+
+        <div class="action-bar">
+          <button type="button" class="btn-ghost" onclick="prevStep(8)">السابق</button>
+          <button type="button" class="btn-primary" onclick="nextStep(10)">التالي</button>
+        </div>
+      </div>
+
+      <!-- ================= STEP 10 (was 8: Priority) ================= -->
+      <div class="polaris-card step-slide" id="slide-10">
+        <h2 class="q-title">10. لو كنت تشتغل بشركة تستخدم نظام إدارة، شنو الشي الأهم بالنسبة إلك بالنظام؟</h2>
+
+        <div class="grid-options two-cols" data-name="q10_priority">
+          <button type="button" class="polaris-opt" onclick="selectSingle(this, 'q10_priority', 'يكون سهل وسريع', 11)">
+            <span class="box-indicator"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></span>
+            <span>يكون سهل وسريع</span>
+          </button>
+          <button type="button" class="polaris-opt" onclick="selectSingle(this, 'q10_priority', 'يقلل الأخطاء', 11)">
+            <span class="box-indicator"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></span>
+            <span>يقلل الأخطاء</span>
+          </button>
+          <button type="button" class="polaris-opt" onclick="selectSingle(this, 'q10_priority', 'يوفر وقت', 11)">
+            <span class="box-indicator"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></span>
+            <span>يوفر وقت</span>
+          </button>
+          <button type="button" class="polaris-opt" onclick="selectSingle(this, 'q10_priority', 'يجمع المعلومات بمكان واحد', 11)">
+            <span class="box-indicator"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></span>
+            <span>يجمع المعلومات بمكان واحد</span>
+          </button>
+          <button type="button" class="polaris-opt" onclick="selectSingle(this, 'q10_priority', 'يسهل التواصل بين الأقسام', 11)">
+            <span class="box-indicator"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></span>
+            <span>يسهل التواصل بين الأقسام</span>
+          </button>
+          <button type="button" class="polaris-opt" onclick="selectSingle(this, 'q10_priority', 'يتكيف ويا طريقة عمل الشركة', 11)">
+            <span class="box-indicator"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></span>
+            <span>يتكيف ويا طريقة عمل الشركة</span>
+          </button>
+          <button type="button" class="polaris-opt" onclick="selectSingle(this, 'q10_priority', 'يوفر تقارير واضحة', 11)">
+            <span class="box-indicator"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></span>
+            <span>يوفر تقارير واضحة</span>
+          </button>
+          <button type="button" class="polaris-opt" onclick="selectSingle(this, 'q10_priority', 'يقلل الأعمال اليدوية', 11)">
+            <span class="box-indicator"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></span>
+            <span>يقلل الأعمال اليدوية</span>
+          </button>
+        </div>
+
+        <div style="margin-top: 12px;">
+          <input type="text" id="q10_priority_other" placeholder="أخرى (يرجى التحديد)...">
+        </div>
+
+        <div class="action-bar">
+          <button type="button" class="btn-ghost" onclick="prevStep(9)">السابق</button>
+          <button type="button" class="btn-primary" onclick="nextStep(11)">التالي</button>
+        </div>
+      </div>
+
+      <!-- ================= STEP 11 (was 9: Best System) ================= -->
+      <div class="polaris-card step-slide" id="slide-11">
+        <h2 class="q-title">11. شنو أفضل نظام أو برنامج إداري/محاسبي استخدمته، وشنو أكثر ميزة عجبتك بيه؟</h2>
+
+        <div class="grid-options two-cols" data-name="q11_best_system">
+          <button type="button" class="polaris-opt" onclick="selectSingle(this, 'q11_best_system', 'سبيدو (Speedo)', 12)">
+            <span class="box-indicator"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></span>
+            <span>سبيدو (Speedo)</span>
+          </button>
+          <button type="button" class="polaris-opt" onclick="selectSingle(this, 'q11_best_system', 'نظام POS / كاشير (مثل فودكس Foodics أو Loyverse)', 12)">
+            <span class="box-indicator"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></span>
+            <span>نظام POS / كاشير (مثل فودكس Foodics أو Loyverse)</span>
+          </button>
+          <button type="button" class="polaris-opt" onclick="selectSingle(this, 'q11_best_system', 'نظام متجر إلكتروني (E-commerce)', 12)">
+            <span class="box-indicator"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></span>
+            <span>نظام متجر إلكتروني (E-commerce)</span>
+          </button>
+          <button type="button" class="polaris-opt" onclick="selectSingle(this, 'q11_best_system', 'نظام محاسبي (الأمين / الميزان...)', 12)">
+            <span class="box-indicator"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></span>
+            <span>نظام محاسبي (الأمين / الميزان...)</span>
+          </button>
+          <button type="button" class="polaris-opt" onclick="selectSingle(this, 'q11_best_system', 'نظام ERP (مثل Odoo / دفترة Daftra)', 12)">
+            <span class="box-indicator"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></span>
+            <span>نظام ERP (مثل Odoo / دفترة Daftra)</span>
+          </button>
+          <button type="button" class="polaris-opt" onclick="selectSingle(this, 'q11_best_system', 'Excel أو Google Sheets', 12)">
+            <span class="box-indicator"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></span>
+            <span dir="ltr">Excel أو Google Sheets</span>
+          </button>
+          <button type="button" class="polaris-opt" onclick="selectSingle(this, 'q11_best_system', 'نظام خاص مصمم ومبرمج للشركة (Custom System)', 12)">
+            <span class="box-indicator"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></span>
+            <span>نظام خاص مصمم ومبرمج للشركة (Custom System)</span>
+          </button>
+          <button type="button" class="polaris-opt" onclick="selectSingle(this, 'q11_best_system', 'ماكو نظام محدد عجبني / ما جربت نظام', 12)">
+            <span class="box-indicator"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></span>
+            <span>ماكو نظام محدد عجبني / ما جربت</span>
+          </button>
+        </div>
+
+        <div style="margin-top: 14px; display: grid; gap: 8px;">
+          <input type="text" id="q11_best_system_other" placeholder="نظام آخر (يرجى التحديد)...">
+          <input type="text" id="q11_best_system_reason" placeholder="شنو الشي أو الميزة اللي خلتك تحبه؟ (اختياري)">
+        </div>
+
+        <div class="action-bar">
+          <button type="button" class="btn-ghost" onclick="prevStep(10)">السابق</button>
+          <button type="button" class="btn-primary" onclick="nextStep(12)">التالي</button>
+        </div>
+      </div>
+
+      <!-- ================= STEP 12 (was 10: Payment Preference) ================= -->
+      <div class="polaris-card step-slide" id="slide-12">
+        <h2 class="q-title">12. شلون تفضل تدفع مقابل نظام إداري يحل مشاكل شركتك؟</h2>
+
+        <div class="grid-options" data-name="q12_payment_pref">
+          <button type="button" class="polaris-opt" onclick="selectSingle(this, 'q12_payment_pref', 'اشتراك شهري مرن', 13)">
+            <span class="box-indicator"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></span>
+            <span>اشتراك شهري مرن</span>
+          </button>
+          <button type="button" class="polaris-opt" onclick="selectSingle(this, 'q12_payment_pref', 'اشتراك سنوي مخفض', 13)">
+            <span class="box-indicator"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></span>
+            <span>اشتراك سنوي مخفض</span>
+          </button>
+          <button type="button" class="polaris-opt" onclick="selectSingle(this, 'q12_payment_pref', 'دفعة واحدة لشراء النظام مدى الحياة', 13)">
+            <span class="box-indicator"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></span>
+            <span>دفعة واحدة لشراء النظام مدى الحياة</span>
+          </button>
+          <button type="button" class="polaris-opt" onclick="selectSingle(this, 'q12_payment_pref', 'نسبة بسيطة مع كل طلب / فاتورة', 13)">
+            <span class="box-indicator"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></span>
+            <span>نسبة بسيطة مع كل طلب / فاتورة</span>
+          </button>
+        </div>
+
+        <div style="margin-top: 12px;">
+          <input type="text" id="q12_payment_pref_other" placeholder="طريقة دفع أخرى...">
+        </div>
+
+        <div class="action-bar">
+          <button type="button" class="btn-ghost" onclick="prevStep(11)">السابق</button>
+          <button type="button" class="btn-primary" onclick="nextStep(13)">التالي</button>
+        </div>
+      </div>
+
+      <!-- ================= STEP 13 (was 11: Switching Barriers - Final Step) ================= -->
+      <div class="polaris-card step-slide" id="slide-13">
+        <h2 class="q-title">13. لو لكيت نظام مثالي، شنو أكثر شي يخليك تتردد تبدل نظامك الحالي؟</h2>
+
+        <div class="grid-options two-cols" data-name="q13_switching">
+          <button type="button" class="polaris-opt" onclick="selectSingleAndSubmit(this, 'q13_switching', 'الخوف من ضياع وصعوبة نقل البيانات القديمة')">
+            <span class="box-indicator"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></span>
+            <span>الخوف من ضياع وصعوبة نقل البيانات القديمة</span>
+          </button>
+          <button type="button" class="polaris-opt" onclick="selectSingleAndSubmit(this, 'q13_switching', 'صعوبة تدريب الموظفين من جديد')">
+            <span class="box-indicator"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></span>
+            <span>صعوبة تدريب الموظفين من جديد</span>
+          </button>
+          <button type="button" class="polaris-opt" onclick="selectSingleAndSubmit(this, 'q13_switching', 'تكلفة الاشتراك المالي')">
+            <span class="box-indicator"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></span>
+            <span>تكلفة الاشتراك المالي</span>
+          </button>
+          <button type="button" class="polaris-opt" onclick="selectSingleAndSubmit(this, 'q13_switching', 'وقت الإعداد والتهيئة طويل')">
+            <span class="box-indicator"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></span>
+            <span>وقت الإعداد والتهيئة طويل</span>
+          </button>
+          <button type="button" class="polaris-opt" onclick="selectSingleAndSubmit(this, 'q13_switching', 'تعود الموظفين على الطريقة القديمة ومقاومة التغيير')">
+            <span class="box-indicator"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></span>
+            <span>تعود الموظفين ومقاومة التغيير</span>
+          </button>
+        </div>
+
+        <div style="margin-top: 12px;">
+          <input type="text" id="q13_switching_other" placeholder="سبب آخر يجعلك تتردد...">
+        </div>
+
+        <div class="action-bar">
+          <button type="button" class="btn-ghost" onclick="prevStep(12)">السابق</button>
+          <button type="button" class="btn-primary" onclick="submitSurvey()">إرسال الاستبيان</button>
+        </div>
+      </div>
+
+      <!-- ================= STEP 14: Thank you ================= -->
+      <div class="polaris-card step-slide" id="slide-14" style="text-align: center; padding: 42px 24px;">
+        <div style="width: 58px; height: 58px; border-radius: 50%; background: var(--opt-active-bg); border: 1.5px solid var(--caramel); display: grid; place-items: center; margin: 0 auto 20px;">
+          <svg style="width: 28px; height: 28px; stroke: var(--caramel); stroke-width: 2.6; fill: none;" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg>
+        </div>
+
+        <h2 class="q-title" style="font-size: 22px;">تم تسجيل إجاباتك بنجاح!</h2>
+        <p style="color: var(--ink-secondary); font-size: 14.5px; max-width: 460px; margin: 12px auto 0; line-height: 1.6;">
+          شكراً جزيلاً لمشاركتك في هذا الاستبيان البحثي. إجاباتك ستساعد في بناء وتطوير أنظمة عمل أكثر كفاءة ومرونة.
+        </p>
+
+        <div class="action-bar" style="justify-content: center; margin-top: 32px;">
+          <button type="button" class="btn-ghost" onclick="restartSurvey()">إعادة البدء</button>
+          <button type="button" class="btn-primary" onclick="openModal()">عرض الاستجابات المسجلة</button>
+        </div>
+      </div>
+
+    </main>
+
+    <!-- Responses Modal -->
+    <div id="respModal" class="modal-overlay hidden">
+      <div class="modal-panel">
+        <div class="modal-head">
+          <div style="font-weight: 700; font-size: 16px;">الاستجابات المسجلة (<span id="modalCount">0</span>)</div>
+          <button type="button" class="nav-btn" onclick="closeModal()">✕</button>
+        </div>
+
+        <div class="modal-content" id="modalItems">
+          <!-- Item logs -->
+        </div>
+
+        <div class="modal-foot">
+          <button type="button" class="nav-btn" style="color: #FF7B7B;" onclick="clearAll()">مسح الكل</button>
+          <div style="display: flex; gap: 8px;">
+            <button type="button" class="btn-ghost" style="padding: 8px 14px; font-size: 13.5px;" onclick="exportCSV()">تصدير CSV</button>
+            <button type="button" class="btn-primary" style="padding: 8px 14px; font-size: 13.5px;" onclick="exportJSON()">تصدير JSON</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Script Logic -->
+    <script>
+      const STORAGE_KEY = 'adaptive_os_zain_responses_v5';
+      let currentStep = 0;
+      const totalSteps = 13;
+
+      const answers = {
+        q1_gender: '',
+        q2_age: '',
+        q3_experience: '',
+        q4_tools: [],
+        q4_tools_other: '',
+        q5_importance: '',
+        q6_problems: [],
+        q6_problems_other: '',
+        q7_rejection: [],
+        q7_rejection_other: '',
+        q8_customization: '',
+        q9_ai: '',
+        q10_priority: '',
+        q10_priority_other: '',
+        q11_best_system: '',
+        q11_best_system_other: '',
+        q11_best_system_reason: '',
+        q12_payment_pref: '',
+        q12_payment_pref_other: '',
+        q13_switching: '',
+        q13_switching_other: ''
+      };
+
+      document.addEventListener('DOMContentLoaded', () => {
+        updateCount();
+        updateProgress();
+      });
+
+      // ── Step Navigation ────────────────────────
+      function showStep(idx) {
+        document.querySelectorAll('.step-slide').forEach(s => s.classList.remove('active'));
+        const el = document.getElementById('slide-' + idx);
+        if (el) {
+          el.classList.add('active');
+          currentStep = idx;
+        }
+        updateProgress();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+      function nextStep(idx) { showStep(idx); }
+      function prevStep(idx) { showStep(idx); }
+
+      function updateProgress() {
+        const pct = currentStep === 0 ? 0 : Math.round((currentStep / totalSteps) * 100);
+        document.getElementById('progressBar').style.width = pct + '%';
+      }
+
+      // ── Selection Logic ────────────────────────
+      function selectSingleAndSubmit(btn, field, val) {
+        const parent = btn.closest('.grid-options');
+        if (parent) {
+          parent.querySelectorAll('.polaris-opt').forEach(o => o.classList.remove('selected'));
+        }
+        btn.classList.add('selected');
+        answers[field] = val;
+        setTimeout(() => submitSurvey(), 250);
+      }
+
+      function selectSingle(btn, field, val, nextIdx) {
+        const parent = btn.closest('.grid-options');
+        if (parent) {
+          parent.querySelectorAll('.polaris-opt').forEach(o => o.classList.remove('selected'));
+        }
+        btn.classList.add('selected');
+        answers[field] = val;
+        setTimeout(() => nextStep(nextIdx), 220);
+      }
+
+      function toggleCheck(btn, maxAllowed = 3) {
+        const groupName = btn.getAttribute('data-check');
+        const isSelected = btn.classList.contains('selected');
+        
+        if (isSelected) {
+          btn.classList.remove('selected');
+          return;
+        }
+
+        const currentSelected = document.querySelectorAll(`[data-check="${groupName}"].selected`);
+        if (currentSelected.length >= maxAllowed) {
+          btn.classList.add('shake');
+          setTimeout(() => btn.classList.remove('shake'), 350);
+          return;
+        }
+
+        btn.classList.add('selected');
+      }
+
+      function selectScale(btn, field, val, nextIdx) {
+        const parent = btn.closest('.scale-row');
+        if (parent) {
+          parent.querySelectorAll('.scale-pill').forEach(p => p.classList.remove('selected'));
+        }
+        btn.classList.add('selected');
+        answers[field] = val;
+        setTimeout(() => nextStep(nextIdx), 220);
+      }
+
+      // ── Submit Survey ──────────────────────────
+      function submitSurvey() {
+        answers.q4_tools = Array.from(document.querySelectorAll('[data-check="q4_tools"].selected')).map(b => b.getAttribute('value'));
+        answers.q4_tools_other = document.getElementById('q4_tools_other')?.value || '';
+
+        answers.q6_problems = Array.from(document.querySelectorAll('[data-check="q6_problems"].selected')).map(b => b.getAttribute('value'));
+        answers.q6_problems_other = document.getElementById('q6_problems_other')?.value || '';
+
+        answers.q7_rejection = Array.from(document.querySelectorAll('[data-check="q7_rejection"].selected')).map(b => b.getAttribute('value'));
+        answers.q7_rejection_other = document.getElementById('q7_rejection_other')?.value || '';
+
+        answers.q10_priority_other = document.getElementById('q10_priority_other')?.value || '';
+        if (!answers.q10_priority && answers.q10_priority_other) {
+          answers.q10_priority = answers.q10_priority_other;
+        }
+
+        answers.q11_best_system_other = document.getElementById('q11_best_system_other')?.value || '';
+        answers.q11_best_system_reason = document.getElementById('q11_best_system_reason')?.value || '';
+        if (!answers.q11_best_system && answers.q11_best_system_other) {
+          answers.q11_best_system = answers.q11_best_system_other;
+        }
+
+        answers.q12_payment_pref_other = document.getElementById('q12_payment_pref_other')?.value || '';
+        if (!answers.q12_payment_pref && answers.q12_payment_pref_other) {
+          answers.q12_payment_pref = answers.q12_payment_pref_other;
+        }
+
+        answers.q13_switching_other = document.getElementById('q13_switching_other')?.value || '';
+        if (!answers.q13_switching && answers.q13_switching_other) {
+          answers.q13_switching = answers.q13_switching_other;
+        }
+
+        const record = {
+          id: 'RESP_' + Date.now(),
+          timestamp: new Date().toISOString(),
+          formattedTime: new Date().toLocaleString('ar-IQ'),
+          ...answers
+        };
+
+        const existing = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
+        existing.push(record);
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(existing));
+
+        updateCount();
+        showStep(14);
+      }
+
+      function restartSurvey() {
+        document.querySelectorAll('.polaris-opt').forEach(o => o.classList.remove('selected'));
+        document.querySelectorAll('.scale-pill').forEach(p => p.classList.remove('selected'));
+        document.querySelectorAll('input[type="text"]').forEach(i => i.value = '');
+        showStep(0);
+      }
+
+      function updateCount() {
+        const stored = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
+        const el = document.getElementById('storedCount');
+        if (el) el.innerText = stored.length;
+      }
+
+      // ── Modal & Export ─────────────────────────
+      function openModal() {
+        const stored = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
+        document.getElementById('modalCount').innerText = stored.length;
+        const container = document.getElementById('modalItems');
+        container.innerHTML = '';
+
+        if (stored.length === 0) {
+          container.innerHTML = `<div style="text-align: center; padding: 30px; color: var(--ink-muted);">لا توجد استجابات مسجلة بعد.</div>`;
+        } else {
+          stored.forEach((item, index) => {
+            const div = document.createElement('div');
+            div.className = 'item-log';
+            div.innerHTML = `
+              <div style="display: flex; justify-content: space-between; font-weight: 700; color: var(--ink-primary); margin-bottom: 6px;">
+                <span>استجابة #${index + 1} (${item.q1_gender || '-'} • ${item.q2_age || '-'})</span>
+                <span style="font-size: 12px; color: var(--ink-muted); font-weight: normal;">${item.formattedTime}</span>
+              </div>
+              <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 4px; font-size: 13px; color: var(--ink-secondary);">
+                <div><strong>الخبرة:</strong> ${item.q3_experience || '-'}</div>
+                <div><strong>أهمية النظام:</strong> ${item.q5_importance || '-'}/5</div>
+                <div><strong>أفضل نظام:</strong> ${item.q11_best_system || '-'}</div>
+                <div><strong>طريقة الدفع:</strong> ${item.q12_payment_pref || '-'}</div>
+                <div><strong>الـ AI:</strong> ${item.q9_ai || '-'}/5</div>
+                <div><strong>التخصيص:</strong> ${item.q8_customization || '-'}/5</div>
+              </div>
+            `;
+            container.appendChild(div);
+          });
+        }
+        document.getElementById('respModal').classList.remove('hidden');
+      }
+
+      function closeModal() {
+        document.getElementById('respModal').classList.add('hidden');
+      }
+
+      function clearAll() {
+        if (confirm('مسح كل الاستجابات؟')) {
+          localStorage.removeItem(STORAGE_KEY);
+          updateCount();
+          openModal();
+        }
+      }
+
+      function exportJSON() {
+        const stored = localStorage.getItem(STORAGE_KEY) || '[]';
+        const blob = new Blob([stored], { type: 'application/json' });
+        const a = document.createElement('a');
+        a.href = URL.createObjectURL(blob);
+        a.download = `adaptive_os_${Date.now()}.json`;
+        a.click();
+      }
+
+      function exportCSV() {
+        const stored = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
+        if (!stored.length) return alert('لا توجد بيانات');
+        const headers = [
+          'ID', 'الوقت', 'س1_الجنس', 'س2_العمر', 'س3_تجربة_العمل', 'س4_طريقة_التنظيم',
+          'س5_أهمية_النظام', 'س6_مشاكل_غياب_النظام', 'س7_أسباب_الرفض', 'س8_التخصيص',
+          'س9_الذكاء_الاصطناعي', 'س10_الأولوية', 'س11_أفضل_نظام_وسبب_تفضيله',
+          'س12_طريقة_الدفع_المفضلة', 'س13_عقبات_التبديل'
+        ];
+        const rows = stored.map(r => [
+          r.id,
+          r.formattedTime,
+          `"${r.q1_gender || ''}"`,
+          `"${r.q2_age || ''}"`,
+          `"${r.q3_experience || ''}"`,
+          `"${((r.q4_tools || []).join(', ') + (r.q4_tools_other ? ' - ' + r.q4_tools_other : ''))}"`,
+          r.q5_importance,
+          `"${((r.q6_problems || []).join(', ') + (r.q6_problems_other ? ' - ' + r.q6_problems_other : ''))}"`,
+          `"${((r.q7_rejection || []).join(', ') + (r.q7_rejection_other ? ' - ' + r.q7_rejection_other : ''))}"`,
+          r.q8_customization,
+          r.q9_ai,
+          `"${r.q10_priority || ''}"`,
+          `"${(r.q11_best_system || '') + (r.q11_best_system_reason ? ' | السبب: ' + r.q11_best_system_reason : '')}"`,
+          `"${r.q12_payment_pref || ''}"`,
+          `"${r.q13_switching || ''}"`
+        ]);
+        const csv = '\uFEFF' + [headers.join(','), ...rows.map(e => e.join(','))].join('\n');
+        const a = document.createElement('a');
+        a.href = URL.createObjectURL(new Blob([csv], { type: 'text/csv;charset=utf-8;' }));
+        a.download = `adaptive_os_${Date.now()}.csv`;
+        a.click();
+      }
+    </script>
+  </body>
+</html>
