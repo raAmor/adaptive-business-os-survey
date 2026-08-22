@@ -1030,7 +1030,7 @@
             <span class="box-indicator"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></span>
             <span>وقت الإعداد والتهيئة طويل</span>
           </button>
-          <button type="button" class="polaris-opt" onclick="selectSingle(this, 'q13_switching', 'تعود الموظفين على الطريقة القديمة ومقاومة التغيير')">
+          <button type="button" class="polaris-opt" onclick="selectSingle(this, 'q13_switching', 'تعود الموظفين على الطريقة القديمة ومقاومة التغيير', 14)">
             <span class="box-indicator"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></span>
             <span>تعود الموظفين ومقاومة التغيير</span>
           </button>
@@ -1131,12 +1131,14 @@
 
       // ── Step Navigation ────────────────────────
       function showStep(idx) {
-        document.querySelectorAll('.step-slide').forEach(s => s.classList.remove('active'));
-        const el = document.getElementById('slide-' + idx);
-        if (el) {
-          el.classList.add('active');
-          currentStep = idx;
+        const targetEl = document.getElementById('slide-' + idx);
+        if (!targetEl) {
+          console.warn('Target slide not found: ' + idx);
+          return;
         }
+        document.querySelectorAll('.step-slide').forEach(s => s.classList.remove('active'));
+        targetEl.classList.add('active');
+        currentStep = Number(idx);
         updateProgress();
         window.scrollTo({ top: 0, behavior: 'smooth' });
       }
@@ -1223,13 +1225,14 @@
       }
 
       function selectSingle(btn, field, val, nextIdx) {
+        const targetStep = nextIdx !== undefined ? nextIdx : (currentStep + 1);
         const parent = btn.closest('.grid-options');
         if (parent) {
           parent.querySelectorAll('.polaris-opt').forEach(o => o.classList.remove('selected'));
         }
         btn.classList.add('selected');
         answers[field] = val;
-        setTimeout(() => nextStep(nextIdx), 220);
+        setTimeout(() => nextStep(targetStep), 220);
       }
 
       function toggleCheck(btn, maxAllowed = 3) {
