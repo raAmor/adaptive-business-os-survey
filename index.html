@@ -1261,7 +1261,13 @@
       }
 
       // ── Submit Survey ──────────────────────────
-      function submitSurvey() {
+      async function submitSurvey() {
+        const submitBtn = document.querySelector('#slide-14 .btn-primary');
+        if (submitBtn) {
+          submitBtn.disabled = true;
+          submitBtn.innerText = 'جاري الإرسال... ⏳';
+        }
+
         // Collect answers
         answers.q4_tools = Array.from(document.querySelectorAll('[data-check="q4_tools"].selected')).map(b => b.getAttribute('value'));
         answers.q4_tools_other = document.getElementById('q4_tools_other')?.value || '';
@@ -1297,26 +1303,36 @@
         answers.q14_notes = document.getElementById('q14_notes')?.value.trim() || '';
 
         const record = {
-          id: 'RESP_' + Date.now(),
+          id: 'RESP_' + Date.now() + '_' + Math.random().toString(36).substring(2, 6),
           timestamp: new Date().toISOString(),
           formattedTime: new Date().toLocaleString('ar-IQ'),
           ...answers
         };
 
-        const existing = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
-        existing.push(record);
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(existing));
+        // Save local backup
+        try {
+          const existing = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
+          existing.push(record);
+          localStorage.setItem(STORAGE_KEY, JSON.stringify(existing));
+        } catch (e) {}
 
-        
-        // Send to central API endpoint
-        fetch('/api/submit', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(record)
-        }).catch(e => console.log('Offline/Local save only'));
+        // Send to cloud database via API
+        try {
+          await fetch('/api/submit', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(record)
+          });
+        } catch (e) {
+          console.warn('API cloud submission failed, saved to local cache', e);
+        }
+
+        if (submitBtn) {
+          submitBtn.disabled = false;
+          submitBtn.innerText = 'إرسال الاستبيان';
+        }
 
         showStep(15);
-
       }
 
       function restartSurvey() {
