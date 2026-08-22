@@ -584,7 +584,6 @@
               <span style="font-size: 12px; color: var(--ink-muted); font-weight: normal;">${item.formattedTime || item.receivedAt || '-'}</span>
             </div>
             <div class="resp-grid">
-              <div><strong>الاسم/الجهة:</strong> ${item.q14_name || 'غير محدد'}</div>
               <div><strong>الهاتف:</strong> ${item.q14_phone ? `<span style="color: var(--caramel);" dir="ltr">${item.q14_phone}</span>` : 'غير متوفر'}</div>
               <div><strong>الخبرة:</strong> ${item.q3_experience || '-'}</div>
               <div><strong>أهمية النظام:</strong> ${item.q5_importance || '-'}/5</div>
@@ -615,7 +614,7 @@
           'ID', 'الوقت', 'س1_الجنس', 'س2_العمر', 'س3_تجربة_العمل', 'س4_طريقة_التنظيم',
           'س5_أهمية_النظام', 'س6_مشاكل_غياب_النظام', 'س7_أسباب_الرفض', 'س8_التخصيص',
           'س9_الذكاء_الاصطناعي', 'س10_الأولوية', 'س11_أفضل_نظام_وسبب_تفضيله',
-          'س12_طريقة_الدفع_المفضلة', 'س13_عقبات_التبديل', 'س14_الاسم_أو_الشركة', 'س14_رقم_الهاتف', 'س14_الملاحظات'
+          'س12_طريقة_الدفع_المفضلة', 'س13_عقبات_التبديل', 'س14_رقم_الهاتف', 'س14_الملاحظات'
         ];
         const rows = surveyData.map(r => [
           r.id,
@@ -632,7 +631,7 @@
           `"${r.q10_priority || ''}"`,
           `"${(r.q11_best_system || '') + (r.q11_best_system_reason ? ' | السبب: ' + r.q11_best_system_reason : '')}"`,
           `"${r.q12_payment_pref || ''}"`,
-          `"${r.q13_switching || ''}"`, `"${r.q14_name || ''}"`, `"${r.q14_phone || ''}"`, `"${(r.q14_notes || '').replace(/"/g, '""')}"`
+          `"${r.q13_switching || ''}"`, `"${r.q14_phone || ''}"`, `"${(r.q14_notes || '').replace(/"/g, '""')}"`
         ]);
         const csv = '\uFEFF' + [headers.join(','), ...rows.map(e => e.join(','))].join('\n');
         const a = document.createElement('a');

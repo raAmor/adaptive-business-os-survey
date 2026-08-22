@@ -1052,10 +1052,7 @@
         <p style="color: var(--ink-secondary); font-size: 14px; margin-top: 6px;">في حال حبيت نبقى على تواصل أو عندك أي مقترح إضافي للفريق</p>
 
         <div style="display: grid; gap: 14px; margin-top: 20px;">
-          <div>
-            <label style="display: block; font-size: 13px; font-weight: 600; color: var(--ink-secondary); margin-bottom: 6px;">الاسم أو اسم شركتك / مشروعك</label>
-            <input type="text" id="q14_name" placeholder="مثال: علي كريم / شركة النور للتجارة" />
-          </div>
+
 
           <div>
             <label style="display: block; font-size: 13px; font-weight: 600; color: var(--ink-secondary); margin-bottom: 6px;">رقم الهاتف أو وسيلة التواصل</label>
@@ -1120,7 +1117,6 @@
         q12_payment_pref_other: '',
         q13_switching: '',
         q13_switching_other: '',
-        q14_name: '',
         q14_phone: '',
         q14_notes: ''
       };
@@ -1297,7 +1293,6 @@
           answers.q13_switching = answers.q13_switching_other;
         }
 
-        answers.q14_name = document.getElementById('q14_name')?.value.trim() || '';
         answers.q14_phone = document.getElementById('q14_phone')?.value.trim() || '';
         answers.q14_notes = document.getElementById('q14_notes')?.value.trim() || '';
 
