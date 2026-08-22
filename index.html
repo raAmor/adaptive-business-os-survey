@@ -1201,6 +1201,10 @@
         document.querySelectorAll('.polaris-opt').forEach(o => o.classList.remove('selected'));
         document.querySelectorAll('.scale-pill').forEach(p => p.classList.remove('selected'));
         document.querySelectorAll('input[type="text"]').forEach(i => i.value = '');
+        Object.keys(answers).forEach(k => {
+          if (Array.isArray(answers[k])) answers[k] = [];
+          else answers[k] = '';
+        });
         showStep(0);
       }
 

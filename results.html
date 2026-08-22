@@ -499,7 +499,7 @@
         document.getElementById('kpiAi').innerText = avgAi;
       }
 
-      function renderCharts() {
+            function renderCharts() {
         const container = document.getElementById('chartsContainer');
         container.innerHTML = '';
         const total = surveyData.length;
@@ -509,18 +509,19 @@
           return;
         }
 
-        // 1. Gender breakdown
-        appendBarGroup(container, 'الجنس (Gender)', countKey('q1_gender'), total);
-        // 2. Age breakdown
-        appendBarGroup(container, 'الفئة العمرية (Age Group)', countKey('q2_age'), total);
-        // 3. Experience breakdown
-        appendBarGroup(container, 'تجربة العمل داخل شركة أو مشروع', countKey('q3_experience'), total);
-        // 4. Best System
-        appendBarGroup(container, 'أفضل نظام تم استخدامه (Top Systems)', countKey('q11_best_system'), total);
-        // 5. Payment Preference
-        appendBarGroup(container, 'طريقة الدفع المفضلة (Payment Model)', countKey('q12_payment_pref'), total);
-        // 6. Switching Barriers
-        appendBarGroup(container, 'أكبر عائق للتبديل (Switching Barrier)', countKey('q13_switching'), total);
+        appendBarGroup(container, '1. الجنس (Gender)', countKey('q1_gender'), total);
+        appendBarGroup(container, '2. الفئة العمرية (Age Group)', countKey('q2_age'), total);
+        appendBarGroup(container, '3. تجربة العمل داخل شركة أو مشروع (Work Experience)', countKey('q3_experience'), total);
+        appendBarGroup(container, '4. طرق تنظيم المعلومات والمهام الحالية (Tools Used)', countKey('q4_tools'), total);
+        appendBarGroup(container, '5. تقييم أهمية وجود نظام إلكتروني (System Importance 1-5)', countKey('q5_importance'), total);
+        appendBarGroup(container, '6. أبرز المشاكل الناتجة عن غياب النظام (Main Problems)', countKey('q6_problems'), total);
+        appendBarGroup(container, '7. أسباب نفور الموظف من النظام (Employee Friction)', countKey('q7_rejection'), total);
+        appendBarGroup(container, '8. أهمية قابلية تخصيص النظام (Customizability 1-5)', countKey('q8_customization'), total);
+        appendBarGroup(container, '9. فائدة مساعد الذكاء الاصطناعي (AI Assistant Utility 1-5)', countKey('q9_ai'), total);
+        appendBarGroup(container, '10. الأولوية الأهم في نظام الإدارة (Top Priority)', countKey('q10_priority'), total);
+        appendBarGroup(container, '11. أفضل الأنظمة التي تم التعامل معها (Top Systems)', countKey('q11_best_system'), total);
+        appendBarGroup(container, '12. طريقة الدفع المفضلة (Payment Model Preference)', countKey('q12_payment_pref'), total);
+        appendBarGroup(container, '13. أكبر عائق للتبديل وتغيير النظام (Switching Barriers)', countKey('q13_switching'), total);
       }
 
       function countKey(key) {
