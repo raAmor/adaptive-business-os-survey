@@ -1014,23 +1014,23 @@
         <h2 class="q-title">13. لو لكيت نظام مثالي، شنو أكثر شي يخليك تتردد تبدل نظامك الحالي؟</h2>
 
         <div class="grid-options two-cols" data-name="q13_switching">
-          <button type="button" class="polaris-opt" onclick="selectSingleAndSubmit(this, 'q13_switching', 'الخوف من ضياع وصعوبة نقل البيانات القديمة')">
+          <button type="button" class="polaris-opt" onclick="selectSingle(this, 'q13_switching', 'الخوف من ضياع وصعوبة نقل البيانات القديمة', 14)">
             <span class="box-indicator"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></span>
             <span>الخوف من ضياع وصعوبة نقل البيانات القديمة</span>
           </button>
-          <button type="button" class="polaris-opt" onclick="selectSingleAndSubmit(this, 'q13_switching', 'صعوبة تدريب الموظفين من جديد')">
+          <button type="button" class="polaris-opt" onclick="selectSingle(this, 'q13_switching', 'صعوبة تدريب الموظفين من جديد', 14)">
             <span class="box-indicator"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></span>
             <span>صعوبة تدريب الموظفين من جديد</span>
           </button>
-          <button type="button" class="polaris-opt" onclick="selectSingleAndSubmit(this, 'q13_switching', 'تكلفة الاشتراك المالي')">
+          <button type="button" class="polaris-opt" onclick="selectSingle(this, 'q13_switching', 'تكلفة الاشتراك المالي', 14)">
             <span class="box-indicator"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></span>
             <span>تكلفة الاشتراك المالي</span>
           </button>
-          <button type="button" class="polaris-opt" onclick="selectSingleAndSubmit(this, 'q13_switching', 'وقت الإعداد والتهيئة طويل')">
+          <button type="button" class="polaris-opt" onclick="selectSingle(this, 'q13_switching', 'وقت الإعداد والتهيئة طويل', 14)">
             <span class="box-indicator"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></span>
             <span>وقت الإعداد والتهيئة طويل</span>
           </button>
-          <button type="button" class="polaris-opt" onclick="selectSingleAndSubmit(this, 'q13_switching', 'تعود الموظفين على الطريقة القديمة ومقاومة التغيير')">
+          <button type="button" class="polaris-opt" onclick="selectSingle(this, 'q13_switching', 'تعود الموظفين على الطريقة القديمة ومقاومة التغيير')">
             <span class="box-indicator"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg></span>
             <span>تعود الموظفين ومقاومة التغيير</span>
           </button>
@@ -1042,12 +1042,40 @@
 
         <div class="action-bar">
           <button type="button" class="btn-ghost" onclick="prevStep(12)">السابق</button>
+          <button type="button" class="btn-primary" onclick="nextStep(14)">التالي</button>
+        </div>
+      </div>
+
+            <!-- ================= STEP 14 (Contact & Feedback) ================= -->
+      <div class="polaris-card step-slide" id="slide-14">
+        <h2 class="q-title">14. معلومات التواصل والملاحظات (اختياري)</h2>
+        <p style="color: var(--ink-secondary); font-size: 14px; margin-top: 6px;">في حال حبيت نبقى على تواصل أو عندك أي مقترح إضافي للفريق</p>
+
+        <div style="display: grid; gap: 14px; margin-top: 20px;">
+          <div>
+            <label style="display: block; font-size: 13px; font-weight: 600; color: var(--ink-secondary); margin-bottom: 6px;">الاسم أو اسم شركتك / مشروعك</label>
+            <input type="text" id="q14_name" placeholder="مثال: علي كريم / شركة النور للتجارة" />
+          </div>
+
+          <div>
+            <label style="display: block; font-size: 13px; font-weight: 600; color: var(--ink-secondary); margin-bottom: 6px;">رقم الهاتف أو وسيلة التواصل</label>
+            <input type="text" id="q14_phone" placeholder="07xxxxxxxxx" dir="ltr" />
+          </div>
+
+          <div>
+            <label style="display: block; font-size: 13px; font-weight: 600; color: var(--ink-secondary); margin-bottom: 6px;">أي ملاحظة أو مقترح إضافي تحب تشاركه ويانا؟</label>
+            <textarea id="q14_notes" placeholder="اكتب ملاحظاتك أو أي تفاصيل تحب تضيفها هنا..."></textarea>
+          </div>
+        </div>
+
+        <div class="action-bar">
+          <button type="button" class="btn-ghost" onclick="prevStep(13)">السابق</button>
           <button type="button" class="btn-primary" onclick="submitSurvey()">إرسال الاستبيان</button>
         </div>
       </div>
 
-      <!-- ================= STEP 14: Thank you ================= -->
-      <div class="polaris-card step-slide" id="slide-14" style="text-align: center; padding: 42px 24px;">
+      <!-- ================= STEP 15: Thank you ================= -->
+      <div class="polaris-card step-slide" id="slide-15" style="text-align: center; padding: 42px 24px;">
         <div style="width: 58px; height: 58px; border-radius: 50%; background: var(--opt-active-bg); border: 1.5px solid var(--caramel); display: grid; place-items: center; margin: 0 auto 20px;">
           <svg style="width: 28px; height: 28px; stroke: var(--caramel); stroke-width: 2.6; fill: none;" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg>
         </div>
@@ -1068,7 +1096,7 @@
     <script>
       const STORAGE_KEY = 'adaptive_os_zain_responses_v5';
       let currentStep = 0;
-      const totalSteps = 13;
+      const totalSteps = 14;
 
       const answers = {
         q1_gender: '',
@@ -1091,7 +1119,10 @@
         q12_payment_pref: '',
         q12_payment_pref_other: '',
         q13_switching: '',
-        q13_switching_other: ''
+        q13_switching_other: '',
+        q14_name: '',
+        q14_phone: '',
+        q14_notes: ''
       };
 
       document.addEventListener('DOMContentLoaded', () => {
@@ -1232,7 +1263,9 @@
 
       // ── Submit Survey ──────────────────────────
       function submitSurvey() {
-        if (!validateStep(13)) {
+        // Step 14 is optional contact/notes
+        // validation check
+
           const currentSlide = document.getElementById('slide-13');
           if (currentSlide) {
             currentSlide.classList.add('shake');
@@ -1271,6 +1304,10 @@
           answers.q13_switching = answers.q13_switching_other;
         }
 
+        answers.q14_name = document.getElementById('q14_name')?.value.trim() || '';
+        answers.q14_phone = document.getElementById('q14_phone')?.value.trim() || '';
+        answers.q14_notes = document.getElementById('q14_notes')?.value.trim() || '';
+
         const record = {
           id: 'RESP_' + Date.now(),
           timestamp: new Date().toISOString(),
@@ -1290,7 +1327,7 @@
           body: JSON.stringify(record)
         }).catch(e => console.log('Offline/Local save only'));
 
-        showStep(14);
+        showStep(15);
 
       }
 
