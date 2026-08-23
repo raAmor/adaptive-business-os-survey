@@ -1,6 +1,13 @@
 {
   "cleanUrls": true,
   "rewrites": [
-    { "source": "/results", "destination": "/results.html" }
+    {
+      "source": "/results",
+      "destination": "/results.html"
+    },
+    {
+      "source": "/bmc",
+      "destination": "/bmc.html"
+    }
   ]
 }

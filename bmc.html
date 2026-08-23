@@ -1,0 +1,655 @@
+<!doctype html>
+<html lang="ar" dir="rtl" data-theme="dark">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>Business Model Canvas — Adaptive Business OS (Iraq)</title>
+    
+    <!-- Fonts: IBM Plex Sans Arabic & Plus Jakarta Sans -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@500;600;700;800&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
+
+    <style>
+      :root {
+        color-scheme: dark;
+        --bg: #0F0B09;
+        --bg-subtle: #16110E;
+        --card-bg: #1A1411;
+        --card-border: #2C211B;
+        --card-hover: #241B16;
+        
+        --caramel: #C88A4B;
+        --caramel-hover: #D89856;
+        --caramel-glow: rgba(200, 138, 75, 0.16);
+        --cafe: #844F28;
+        --espresso: #3D2314;
+        --almond: #D6C2B0;
+        
+        --ink-primary: #FAF7F2;
+        --ink-secondary: #C8BAB0;
+        --ink-muted: #8A7A6F;
+
+        --radius-sm: 8px;
+        --radius: 12px;
+        --radius-lg: 16px;
+        --ease: cubic-bezier(0.16, 1, 0.3, 1);
+        --font-mono: 'JetBrains Mono', monospace;
+      }
+
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+        font-family: 'IBM Plex Sans Arabic', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+      }
+
+      body {
+        background-color: var(--bg);
+        color: var(--ink-primary);
+        min-height: 100dvh;
+        line-height: 1.5;
+        overflow-x: hidden;
+        -webkit-font-smoothing: antialiased;
+        padding: 24px 20px 60px;
+      }
+
+      body::before {
+        content: '';
+        position: fixed;
+        inset: 0;
+        background: radial-gradient(circle at 50% 8%, var(--caramel-glow), transparent 65%);
+        pointer-events: none;
+        z-index: 0;
+      }
+
+      .canvas-wrapper {
+        position: relative;
+        z-index: 10;
+        max-width: 1440px;
+        margin: 0 auto;
+      }
+
+      /* Header */
+      .bmc-header {
+        background: var(--card-bg);
+        border: 1px solid var(--card-border);
+        border-radius: var(--radius-lg);
+        padding: 24px 28px;
+        margin-bottom: 20px;
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+        box-shadow: 0 16px 40px rgba(0, 0, 0, 0.6);
+      }
+
+      .header-top {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        flex-wrap: wrap;
+        gap: 16px;
+      }
+
+      .brand-box {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+      }
+      .super-tag {
+        font-size: 11.5px;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--caramel);
+        font-family: 'Plus Jakarta Sans', sans-serif;
+      }
+      .main-title {
+        font-size: 26px;
+        font-weight: 800;
+        color: var(--ink-primary);
+        font-family: 'Plus Jakarta Sans', sans-serif;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .main-title .badge-os {
+        background: var(--caramel);
+        color: #0F0B09;
+        font-size: 14px;
+        font-weight: 800;
+        padding: 2px 8px;
+        border-radius: 6px;
+      }
+      .tagline {
+        font-size: 13.5px;
+        color: var(--ink-secondary);
+        max-width: 750px;
+        margin-top: 2px;
+      }
+
+      .meta-box {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        gap: 6px;
+        text-align: left;
+      }
+      .meta-pill {
+        background: var(--bg-subtle);
+        border: 1px solid var(--card-border);
+        padding: 4px 12px;
+        border-radius: 20px;
+        font-size: 12px;
+        color: var(--almond);
+        font-family: var(--font-mono);
+      }
+
+      /* Spectrum Position */
+      .spectrum-bar {
+        background: var(--bg-subtle);
+        border: 1px solid var(--card-border);
+        border-radius: 10px;
+        padding: 10px 18px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        font-size: 12px;
+        color: var(--ink-muted);
+      }
+      .spectrum-mid {
+        color: var(--caramel);
+        font-weight: 700;
+        background: rgba(200, 138, 75, 0.12);
+        padding: 3px 12px;
+        border-radius: 6px;
+        border: 1px solid rgba(200, 138, 75, 0.3);
+      }
+
+      /* 9 Box BMC Grid */
+      .bmc-grid {
+        display: grid;
+        grid-template-columns: repeat(10, 1fr);
+        grid-auto-rows: minmax(170px, auto);
+        gap: 14px;
+      }
+
+      /* Grid Placements according to classic Osterwalder Canvas */
+      .box-partners { grid-column: 1 / span 2; grid-row: 1 / span 2; }
+      .box-activities { grid-column: 3 / span 2; grid-row: 1; }
+      .box-resources { grid-column: 3 / span 2; grid-row: 2; }
+      .box-value { grid-column: 5 / span 2; grid-row: 1 / span 2; border-color: rgba(200, 138, 75, 0.4); background: linear-gradient(180deg, #1E1612 0%, #17110E 100%); }
+      .box-relationships { grid-column: 7 / span 2; grid-row: 1; }
+      .box-channels { grid-column: 7 / span 2; grid-row: 2; }
+      .box-segments { grid-column: 9 / span 2; grid-row: 1 / span 2; }
+      .box-cost { grid-column: 1 / span 5; grid-row: 3; }
+      .box-revenue { grid-column: 6 / span 5; grid-row: 3; border-color: rgba(200, 138, 75, 0.35); }
+
+      /* Responsive for tablets and mobile */
+      @media (max-width: 1080px) {
+        .bmc-grid {
+          display: flex;
+          flex-direction: column;
+        }
+      }
+
+      /* Card Styling */
+      .bmc-card {
+        background: var(--card-bg);
+        border: 1px solid var(--card-border);
+        border-radius: var(--radius);
+        padding: 18px 16px;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        transition: transform 0.2s var(--ease), border-color 0.2s var(--ease);
+      }
+      .bmc-card:hover {
+        border-color: var(--caramel);
+        transform: translateY(-2px);
+      }
+
+      .card-header {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        border-bottom: 1px solid var(--card-border);
+        padding-bottom: 10px;
+      }
+      .card-num {
+        width: 22px;
+        height: 22px;
+        border-radius: 6px;
+        background: var(--espresso);
+        color: var(--caramel);
+        display: grid;
+        place-items: center;
+        font-size: 11.5px;
+        font-weight: 800;
+        font-family: var(--font-mono);
+      }
+      .card-title {
+        font-size: 14.5px;
+        font-weight: 700;
+        color: var(--ink-primary);
+      }
+      .card-title-en {
+        font-size: 11px;
+        color: var(--ink-muted);
+        font-weight: 600;
+        margin-right: auto;
+        font-family: 'Plus Jakarta Sans', sans-serif;
+      }
+
+      .item-list {
+        list-style: none;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        font-size: 12.5px;
+        color: var(--ink-secondary);
+      }
+      .item-list li {
+        position: relative;
+        padding-right: 14px;
+        line-height: 1.45;
+      }
+      .item-list li::before {
+        content: '•';
+        position: absolute;
+        right: 0;
+        color: var(--caramel);
+        font-weight: bold;
+        font-size: 14px;
+      }
+      .item-title {
+        font-weight: 700;
+        color: var(--ink-primary);
+        display: block;
+        margin-bottom: 2px;
+      }
+      .survey-insight {
+        background: rgba(200, 138, 75, 0.08);
+        border-right: 2px solid var(--caramel);
+        padding: 5px 8px;
+        border-radius: 4px;
+        font-size: 11.5px;
+        color: var(--almond);
+        margin-top: 4px;
+        display: block;
+      }
+
+      /* Actions Bar */
+      .action-row {
+        margin-top: 20px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 12px;
+      }
+      .btn {
+        background: #1E1612;
+        border: 1px solid #33251E;
+        color: var(--ink-primary);
+        font: inherit;
+        font-size: 13.5px;
+        font-weight: 600;
+        padding: 8px 16px;
+        border-radius: 8px;
+        cursor: pointer;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        transition: all 0.2s var(--ease);
+      }
+      .btn:hover {
+        background: var(--card-hover);
+        border-color: var(--caramel);
+      }
+      .btn-primary {
+        background: var(--caramel);
+        color: #0F0B09;
+        border: none;
+        font-weight: 700;
+      }
+      .btn-primary:hover {
+        opacity: 0.92;
+      }
+
+      @media print {
+        body { background: white; color: black; padding: 0; }
+        .bmc-card { border: 1px solid #ccc; background: white; color: black; }
+        .action-row { display: none; }
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="canvas-wrapper">
+
+      <!-- ================= HEADER ================= -->
+      <header class="bmc-header">
+        <div class="header-top">
+          <div class="brand-box">
+            <span class="super-tag">BUSINESS MODEL CANVAS | IRAQ MARKET (ZAIN BMC)</span>
+            <h1 class="main-title">
+              <span>Adaptive Business</span>
+              <span class="badge-os">OS</span>
+            </h1>
+            <p class="tagline">
+              منصة تشغيل وإدارة أعمال مرنة تتكيف مع الطريقة الفعلية لعمل الشركة العراقية (Analyze, Optimize, Configure) كمنظومة موحدة دون الحاجة لبرمجة كود مخصص من الصفر.
+            </p>
+          </div>
+
+          <div class="meta-box" dir="ltr">
+            <span class="meta-pill">Zain Summer Training 2026</span>
+            <span class="meta-pill" style="color: var(--caramel);">Sample Validation: N=162</span>
+            <span class="meta-pill">Stage: Pre-MVP / Validated BMC</span>
+          </div>
+        </div>
+
+        <div class="spectrum-bar">
+          <span>❌ أنظمة ERP العالمية المعقدة (Odoo / SAP)</span>
+          <span class="spectrum-mid">⚡ Adaptive Business OS (التكيف السريع بدون تعقيد)</span>
+          <span>❌ البرمجة المخصصة المكلفة والبطيئة (Custom Software)</span>
+        </div>
+      </header>
+
+      <!-- ================= 9 BOX BMC GRID ================= -->
+      <div class="bmc-grid">
+
+        <!-- 1. KEY PARTNERS -->
+        <div class="bmc-card box-partners">
+          <div class="card-header">
+            <span class="card-num">1</span>
+            <span class="card-title">الشركاء الرئيسيون</span>
+            <span class="card-title-en">Key Partners</span>
+          </div>
+          <ul class="item-list">
+            <li>
+              <span class="item-title">شركات التوصيل واللوجستيات العراقية:</span>
+              الربط المباشر مع شركات التوصيل لمعالجة تحصيل مبالغ الدفع عند الاستلام (COD Reconciliation) وإدارة المرتجعات تلقائياً.
+            </li>
+            <li>
+              <span class="item-title">بوابات الدفع الإلكتروني المحلية:</span>
+              تكامل مع ZainCash، Qi Card، FastPay، و FIB للتحصيل الرقمي ودفع الاشتراكات.
+            </li>
+            <li>
+              <span class="item-title">منصات المراسلة والـ APIs الرسمية:</span>
+              شراكات مزودي Meta Cloud API (WhatsApp/Instagram) و Telegram Bot Gateways.
+            </li>
+            <li>
+              <span class="item-title">مجهزو أجهزة الكاشير والباركود:</span>
+              موردو طابعات الفواتير وقارئات الباركود كشركاء تزويد للمحلات.
+            </li>
+            <li>
+              <span class="item-title">مكاتب المحاسبة والتدقيق:</span>
+              شركاء إحالة وتوصية يوصون بالـ OS لعملائهم من الشركات.
+            </li>
+          </ul>
+        </div>
+
+        <!-- 2. KEY ACTIVITIES -->
+        <div class="bmc-card box-activities">
+          <div class="card-header">
+            <span class="card-num">2</span>
+            <span class="card-title">الأنشطة الرئيسية</span>
+            <span class="card-title-en">Key Activities</span>
+          </div>
+          <ul class="item-list">
+            <li>
+              <span class="item-title">تحليل وتبسيط مسارات العمل (Business Analysis):</span>
+              فهم دورة عمل العميل الحالية قبل التثبيت لضبط إعدادات النظام تلقائياً.
+            </li>
+            <li>
+              <span class="item-title">تطوير محرك التخصيص المرن (Adaptive Engine):</span>
+              بناء وتطوير محرك الحقول المخصصة ومسارات الموافقات بدون كود.
+            </li>
+            <li>
+              <span class="item-title">نقل وتهيئة البيانات الفورية (1-Click Data Migration):</span>
+              استيراد داتا المنتجات والزبائن من Excel والورق بنقرة واحدة لحل العائق الأول للتبديل (32.8%).
+            </li>
+            <li>
+              <span class="item-title">تطوير مساعد الذكاء الاصطناعي (AI Operations):</span>
+              تدريب خوارزميات التنبؤ بالمبيعات والمخزون والإجابة الفورية بالعامية العراقية.
+            </li>
+          </ul>
+        </div>
+
+        <!-- 3. KEY RESOURCES -->
+        <div class="bmc-card box-resources">
+          <div class="card-header">
+            <span class="card-num">3</span>
+            <span class="card-title">الموارد الرئيسية</span>
+            <span class="card-title-en">Key Resources</span>
+          </div>
+          <ul class="item-list">
+            <li>
+              <span class="item-title">محرك المنظومة التكيفي (Core OS Layer):</span>
+              محرك إدارة تدفق البيانات، الصلاحيات الدقيقة، وحقول التخصيص السريعة.
+            </li>
+            <li>
+              <span class="item-title">مكتبة القوالب الجاهزة للأنشطة العراقية:</span>
+              نماذج جاهزة للتجارة، الكاشير، نظام الأقساط، التوزيع، وإدارة المشاريع.
+            </li>
+            <li>
+              <span class="item-title">البنية التحتية السحابية الآمنة:</span>
+              سيرفرات فائقة السرعة مع عزل تام لبيانات كل شركة (Multi-tenant Isolation).
+            </li>
+            <li>
+              <span class="item-title">فريق التحليل والتشغيل المحلي:</span>
+              مهندسو تطبيق ومحللو أعمال عراقيون يفهمون ثقافة السوق المحلي.
+            </li>
+          </ul>
+        </div>
+
+        <!-- 4. VALUE PROPOSITIONS -->
+        <div class="bmc-card box-value">
+          <div class="card-header">
+            <span class="card-num">4</span>
+            <span class="card-title" style="color: var(--caramel);">القيمة المقترحة</span>
+            <span class="card-title-en">Value Propositions</span>
+          </div>
+          <ul class="item-list">
+            <li>
+              <span class="item-title">مرن وقابل للتخصيص بالكامل (Flexible & Adaptive):</span>
+              النظام هو من يتكيف مع طريقة عمل الشركة وليس العكس، بدون الحاجة لكتابة كود مخصص.
+              <span class="survey-insight">📊 48.8% من الاستبيان قيّموا التخصيص بـ 5/5 كأهم ميزة.</span>
+            </li>
+            <li>
+              <span class="item-title">سهل وسريع بدون تعقيد (Zero-Training Simplicity):</span>
+              واجهات عصرية وواضحة تمكن أي موظف من العمل في دقائق دون تدريب معقد.
+              <span class="survey-insight">📊 32.8% ينفرون من الأنظمة بسبب تعقيد الواجهات والخطوات.</span>
+            </li>
+            <li>
+              <span class="item-title">منصة موحدة شاملة (All-in-One Operations):</span>
+              تجميع المبيعات، المخزون، الحسابات، الأقساط، والموظفين في مكان واحد وإنهاء تشتت الإكسل والورق.
+            </li>
+            <li>
+              <span class="item-title">مساعد ذكاء اصطناعي فوري (AI-Powered Assistant):</span>
+              استخراج التقارير، مراقبة حركة المخزون، والتنبيه بالأخطاء والمبيعات فوراً باللغة الطبيعية.
+              <span class="survey-insight">📊 48.1% أكدوا حاجتهم القصوى لمساعد الـ AI في العمليات.</span>
+            </li>
+            <li>
+              <span class="item-title">صندوق وارد موحد للمراسلات (Unified Inbox):</span>
+              إدارة رسائل وطلبات واتساب وتليغرام وإنستغرام من شاشة واحدة وربطها بالمبيعات مباشرة.
+            </li>
+            <li>
+              <span class="item-title">مصمم خصيصاً للسوق العراقي (100% Arabic & Localized):</span>
+              دعم لنظام الأقساط الشائع بالعراق، الدين، والعمل بالدينار والدولار بسلاسة.
+            </li>
+          </ul>
+        </div>
+
+        <!-- 5. CUSTOMER RELATIONSHIPS -->
+        <div class="bmc-card box-relationships">
+          <div class="card-header">
+            <span class="card-num">5</span>
+            <span class="card-title">العلاقات مع العملاء</span>
+            <span class="card-title-en">Customer Relationships</span>
+          </div>
+          <ul class="item-list">
+            <li>
+              <span class="item-title">شريك استشاري ومسؤول إطلاق مخصص:</span>
+              (Consultative Onboarding) مهندس مخصص يشرف على نقل البيانات وتدريب الفريق حتى نجاح الإطلاق.
+            </li>
+            <li>
+              <span class="item-title">دعم فني سريع ومباشر عبر واتساب وتليغرام:</span>
+              دعم فني عراقي متواصل وسريع يحل المشاكل في دقائق.
+            </li>
+            <li>
+              <span class="item-title">مراجعات ربع سنوية لتحسين الكفاءة:</span>
+              جلسات دورية لتحسين مسارات العمل وتقديم نصائح لزيادة الأرباح وتقليل الهدر.
+            </li>
+          </ul>
+        </div>
+
+        <!-- 6. CHANNELS -->
+        <div class="bmc-card box-channels">
+          <div class="card-header">
+            <span class="card-num">6</span>
+            <span class="card-title">القنوات</span>
+            <span class="card-title-en">Channels</span>
+          </div>
+          <ul class="item-list">
+            <li>
+              <span class="item-title">المبيعات المباشرة للمؤسسين (Founder-Led Sales):</span>
+              زيارات ميدانية وعروض حية لأول 30 شركة ومتجر ريادي لبناء قصص نجاح موثوقة.
+            </li>
+            <li>
+              <span class="item-title">أداة الفحص والتشخيص المجاني (Free Operations Diagnostic):</span>
+              تقديم تقرير تشخيصي مجاني لنقاط الهدر في إكسل الشركة لاستقطاب العملاء.
+            </li>
+            <li>
+              <span class="item-title">شبكات ومجتمعات التجار ورواد الأعمال:</span>
+              كروبات واتساب وتليغرام للتجار، ومجتمع حاضنات الأعمال ومسرعة زين (Zain).
+            </li>
+            <li>
+              <span class="item-title">برنامج الإحالة والشراكة (Referral Network):</span>
+              عمولات مجزية لمكاتب المحاسبة وشركات اللوجستيات عند ترشيح عملاء جدد.
+            </li>
+          </ul>
+        </div>
+
+        <!-- 7. CUSTOMER SEGMENTS -->
+        <div class="bmc-card box-segments">
+          <div class="card-header">
+            <span class="card-num">7</span>
+            <span class="card-title">شرائح العملاء</span>
+            <span class="card-title-en">Customer Segments</span>
+          </div>
+          <ul class="item-list">
+            <li>
+              <span class="item-title">الشركات الصغيرة والمتوسطة (SMEs):</span>
+              الشركات التي تبحث عن نظام مرن وعصري لإدارة عملياتها اليومية دون تعقيد الـ ERP التقليدي.
+            </li>
+            <li>
+              <span class="item-title">المتاجر والشركات المعتمدة على Excel والواتساب:</span>
+              الأنشطة التي تعاني من فوضى الجداول وتعدد التطبيقات وتريد جمع عملياتها في مكان واحد.
+              <span class="survey-insight">📊 46% من عينة السوق يديرون أعمالهم حالياً عبر الإكسل والواتساب المشتت.</span>
+            </li>
+            <li>
+              <span class="item-title">شركات التجارة، التوزيع، والخدمات:</span>
+              (Retail, E-commerce, Distribution, Project-based) التي تحتاج لتتبع الطلبات والمخزون بدقة.
+            </li>
+            <li>
+              <span class="item-title">الشركات ذات الفروع المتعددة (Multi-Branch):</span>
+              التي تحتاج إلى إدارة مركزية موحدة ومراقبة فورية لأداء الفروع والمخازن.
+            </li>
+            <li>
+              <span class="item-title">أصحاب مسارات العمل الخاصة والمميزة:</span>
+              شركات بيع الأقساط والخدمات المخصصة التي لا تلبيها الأنظمة الجاهزة في السوق.
+            </li>
+          </ul>
+        </div>
+
+        <!-- 8. COST STRUCTURE -->
+        <div class="bmc-card box-cost">
+          <div class="card-header">
+            <span class="card-num">8</span>
+            <span class="card-title">هيكل التكاليف</span>
+            <span class="card-title-en">Cost Structure</span>
+          </div>
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px;">
+            <ul class="item-list">
+              <li>
+                <span class="item-title">رواتب فريق الهندسة والتطوير:</span>
+                التكلفة الثابتة الأساسية لبناء وصيانة محرك النظام وقوالب الأعمال.
+              </li>
+              <li>
+                <span class="item-title">فريق التحليل والتشغيل والدعم الفني:</span>
+                تكاليف تأهيل وتهيئة العملاء الجدد وتقديم الدعم الميداني والرقمي.
+              </li>
+            </ul>
+            <ul class="item-list">
+              <li>
+                <span class="item-title">البنية السحابية واستهلاك الـ AI (Inference):</span>
+                خوادم الحوسبة السحابية وقواعد البيانات واستهلاك واجهات الذكاء الاصطناعي (محددة ومضبوطة بسقف استهلاك).
+              </li>
+              <li>
+                <span class="item-title">تكاليف المبيعات والتسويق واستقطاب العملاء (CAC):</span>
+                الحملات التسويقية، الزيارات الميدانية، والفعاليات في منظومة ريادة الأعمال.
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- 9. REVENUE STREAMS -->
+        <div class="bmc-card box-revenue">
+          <div class="card-header">
+            <span class="card-num">9</span>
+            <span class="card-title" style="color: var(--caramel);">مصادر الإيرادات</span>
+            <span class="card-title-en">Revenue Streams</span>
+          </div>
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px;">
+            <ul class="item-list">
+              <li>
+                <span class="item-title">1. تحليل الأعمال ومتطلبات النظام (Business Analysis):</span>
+                رسوم لمرة واحدة لدراسة مسارات العمل وتهيئة خطة التخصيص للعميل.
+              </li>
+              <li>
+                <span class="item-title">2. رسوم الإعداد والتهيئة ونقل البيانات (Setup & Migration):</span>
+                رسوم لمرة واحدة لإعداد النظام وربط الأجهزة ونقل داتا الإكسل القديمة.
+              </li>
+              <li>
+                <span class="item-title">3. اشتراكات SaaS الدورية (SaaS Subscriptions):</span>
+                اشتراك سنوي مخفض أو شهري مرن بحسب عدد المستخدمين، الفروع، والموديولات.
+                <span class="survey-insight">📊 44.6% فضلوا نماذج الاشتراكات السنوية والشهرية المنظمة.</span>
+              </li>
+            </ul>
+            <ul class="item-list">
+              <li>
+                <span class="item-title">4. نموذج النسبة مع النمو (Pay-As-You-Grow):</span>
+                نسبة بسيطة مع كل فاتورة / طلب للمشاريع الناشئة لتقليل حاجز الدخول المالي.
+                <span class="survey-insight">📊 28.5% من عينة السوق فضّلوا خيار النسبة البسيطة مع كل طلب.</span>
+              </li>
+              <li>
+                <span class="item-title">5. التطوير والربط المخصص (Custom Modules):</span>
+                رسوم إضافية عند طلب ميزات خاصة أو تكامل مع أنظمة طرف ثالث مخصصة.
+              </li>
+              <li>
+                <span class="item-title">6. الإضافات والميزات المتقدمة (Add-ons):</span>
+                باقات الذكاء الاصطناعي الموسعة، الدعم المتميز (VIP SLA)، والتدريب المتقدم.
+              </li>
+            </ul>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- ================= ACTIONS / FOOTER ================= -->
+      <div class="action-row">
+        <div style="font-size: 13px; color: var(--ink-muted);">
+          <span>Adaptive Business OS — Zain Summer Training BMC Framework © 2026</span>
+        </div>
+        <div style="display: flex; gap: 10px;">
+          <a href="/results" class="btn">عرض بيانات الاستبيان (/results)</a>
+          <button type="button" class="btn btn-primary" onclick="window.print()">طباعة / حفظ PDF 📄</button>
+        </div>
+      </div>
+
+    </div>
+  </body>
+</html>
